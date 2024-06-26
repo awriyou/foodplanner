@@ -1,10 +1,10 @@
 import { Text, View } from "react-native";
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 const SearchRecipeScreen = () => {
     return (
-        <View>
+        <SafeAreaView>
             <Text></Text>
-        </View>
+        </SafeAreaView>
     );
 }
 

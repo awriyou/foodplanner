@@ -3,20 +3,34 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { GlobalStyles } from './constant/styles';
 import FoodPlannerScreen from './screens/FoodPlannerScreen';
 import HomeScreen from './screens/HomeScreen';
 import SearchRecipeScreen from './screens/SearchRecipeScreen';
 import BasketScreen from './screens/BasketScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import {Ionicons} from '@expo/vector-icons'
+import {COLORS, SIZES} from './constant/styles'
 
+
+const screenOptions = {
+  tabBarShowLabel: false,
+  tabBarHideOnKeyboard: true,
+  headerShown: false,
+  tabBarStyle: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    left: 0,
+    elevation: 0,
+    height: 70,
+  },
+};
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 function Tabs() {
   return (
-    <BottomTabs.Navigator>
+    <BottomTabs.Navigator screenOptions={screenOptions}>
       <BottomTabs.Screen
         name="Home"
         component={HomeScreen}
@@ -26,10 +40,11 @@ function Tabs() {
               <Ionicons
                 name={focused ? 'home' : 'home-outline'}
                 size={24}
-                color={focused ? Colors.primary : COLORS.gray2}
+                color={focused ? COLORS.primary2 : COLORS.primary}
               />
             );
           },
+          headerShown: false,
         }}
       />
 
@@ -40,9 +55,9 @@ function Tabs() {
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name={focused ? 'home' : 'home-outline'}
+                name={focused ? 'calendar-sharp' : 'calendar-outline'}
                 size={24}
-                color={focused ? COLORS.primary : COLORS.gray2}
+                color={focused ? COLORS.primary2 : COLORS.primary}
               />
             );
           },
@@ -56,9 +71,9 @@ function Tabs() {
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name={focused ? 'home' : 'home-outline'}
+                name={focused ? 'search-sharp' : 'search-outline'}
                 size={24}
-                color={focused ? COLORS.primary : COLORS.gray2}
+                color={focused ? COLORS.primary2 : COLORS.primary}
               />
             );
           },
@@ -72,9 +87,9 @@ function Tabs() {
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name={focused ? 'home' : 'home-outline'}
+                name={focused ? 'list-sharp' : 'list-outline'}
                 size={24}
-                color={focused ? COLORS.primary : COLORS.gray2}
+                color={focused ? COLORS.primary2 : COLORS.primary}
               />
             );
           },
@@ -88,9 +103,9 @@ function Tabs() {
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name={focused ? 'home' : 'home-outline'}
+                name={focused ? 'person' : 'person-outline'}
                 size={24}
-                color={focused ? COLORS.primary : COLORS.gray2}
+                color={focused ? COLORS.primary2 : COLORS.primary}
               />
             );
           },
@@ -106,12 +121,9 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerStyle: { backgroundColor: GlobalStyles.colors.primary },
+          headerStyle: { backgroundColor: COLORS.wht },
           headerTintColor: 'white',
-          tabBarStyle: {
-            backgroundColor: GlobalStyles.colors.primary,
-            paddingBottom: 6,
-          },
+
         }}
       >
         <Stack.Screen
