@@ -1,20 +1,126 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
+// import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { GlobalStyles } from './constant/styles';
+import FoodPlannerScreen from './screens/FoodPlannerScreen';
+import HomeScreen from './screens/HomeScreen';
+import SearchRecipeScreen from './screens/SearchRecipeScreen';
+import BasketScreen from './screens/BasketScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import {Ionicons} from '@expo/vector-icons'
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+const BottomTabs = createBottomTabNavigator();
+
+function Tabs() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <BottomTabs.Navigator>
+      <BottomTabs.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name={focused ? 'home' : 'home-outline'}
+                size={24}
+                color={focused ? Colors.primary : COLORS.gray2}
+              />
+            );
+          },
+        }}
+      />
+
+      <BottomTabs.Screen
+        name="FoodPlanner"
+        component={FoodPlannerScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name={focused ? 'home' : 'home-outline'}
+                size={24}
+                color={focused ? COLORS.primary : COLORS.gray2}
+              />
+            );
+          },
+        }}
+      />
+
+      <BottomTabs.Screen
+        name="SearchRecipe"
+        component={SearchRecipeScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name={focused ? 'home' : 'home-outline'}
+                size={24}
+                color={focused ? COLORS.primary : COLORS.gray2}
+              />
+            );
+          },
+        }}
+      />
+
+      <BottomTabs.Screen
+        name="Basket"
+        component={BasketScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name={focused ? 'home' : 'home-outline'}
+                size={24}
+                color={focused ? COLORS.primary : COLORS.gray2}
+              />
+            );
+          },
+        }}
+      />
+
+      <BottomTabs.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name={focused ? 'home' : 'home-outline'}
+                size={24}
+                color={focused ? COLORS.primary : COLORS.gray2}
+              />
+            );
+          },
+        }}
+      />
+
+    </BottomTabs.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: { backgroundColor: GlobalStyles.colors.primary },
+          headerTintColor: 'white',
+          tabBarStyle: {
+            backgroundColor: GlobalStyles.colors.primary,
+            paddingBottom: 6,
+          },
+        }}
+      >
+        <Stack.Screen
+          name="Tabs"
+          component={Tabs}
+          options={{ headerShown: false }}
+        />
+
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
