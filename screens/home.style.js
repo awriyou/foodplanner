@@ -76,12 +76,12 @@ const styles = StyleSheet.create({
   },
   popRecipeContainer: {
     marginHorizontal: 20,
-    marginTop: SIZES.small
+    marginTop: SIZES.small,
   },
-  popRecipeText:{
+  popRecipeText: {
     fontFamily: 'bold',
     fontSize: SIZES.large,
-    color: COLORS.primary
+    color: COLORS.primary,
   },
 
 });
