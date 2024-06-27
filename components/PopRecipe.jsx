@@ -1,44 +1,40 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import React, { useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
 import styles from './poprecipe.style';
-import { COLORS } from '../constant/styles';
+import { SIZES } from '../constant/styles';
+import PopRecipeCardView from './PopRecipeCardView';
 
-const PopRecipe = ({ item }) => {
-    const [optionVisible, setOptionVisible] = useState(false);
+const PopRecipe = () => {
+    const recipeData = [
+      {
+        name: 'Nasi Goreng Kemangi',
+        imageUrl:
+          'https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        difficult: 'Easy',
+      },
+      {
+        name: 'Nasi Goreng Kemangi',
+        imageUrl:
+          'https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        difficult: 'Easy',
+      },
+      {
+        name: 'Nasi Goreng Kemangi',
+        imageUrl:
+          'https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        difficult: 'Easy',
+      },
+    ];
   return (
-    <TouchableOpacity>
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image source={{ uri: item.imageUrl }} style={styles.image} />
-        </View>
-        <View style={styles.desc}>
-          <View style={styles.textContainer}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.difficult}>{item.difficult}</Text>
-          </View>
-          <TouchableOpacity onPress={() => setOptionVisible(!optionVisible)}>
-            <Ionicons name="ellipsis-vertical" size={24} color={COLORS.wht} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      {optionVisible ? (<View style={styles.optionWrapper}>
-        <View>
-          <TouchableOpacity style={styles.option1}>
-            <Ionicons name="add-sharp" size={24} color={COLORS.dark} />
-            <Text>Add To Calendar</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity style={styles.option2}>
-            <Ionicons name="heart-outline" size={24} color={COLORS.dark} />
-            <Text>Add To Favorite</Text>
-          </TouchableOpacity>
-        </View>
-      </View>): (
-        <View></View>
-      )}
-    </TouchableOpacity>
+    <View style={styles.popRecipeContainer}>
+      <Text style={styles.popRecipeText}>Popular Recipes</Text>
+      <FlatList
+        data={recipeData}
+        horizontal
+        contentContainerStyle={{ columnGap: SIZES.medium }}
+        renderItem={({ item }) => <PopRecipeCardView item={item} />}
+      />
+    </View>
   );
 };
 

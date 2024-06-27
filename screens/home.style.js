@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'space-between',
     alignItems: 'center',
-    // marginHorizontal: 20,
     backgroundColor: COLORS.gray3,
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
@@ -74,15 +73,7 @@ const styles = StyleSheet.create({
     height: '100%',
     paddingHorizontal: SIZES.small,
   },
-  popRecipeContainer: {
-    marginHorizontal: 20,
-    marginTop: SIZES.small,
-  },
-  popRecipeText: {
-    fontFamily: 'bold',
-    fontSize: SIZES.large,
-    color: COLORS.primary,
-  },
+
 
 });
 

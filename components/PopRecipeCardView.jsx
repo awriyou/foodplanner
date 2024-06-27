@@ -1,0 +1,108 @@
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import { COLORS, SIZES } from '../constant/styles';
+
+const PopRecipeCardView = ({ item }) => {
+  const [optionVisible, setOptionVisible] = useState(false);
+  return (
+    <TouchableOpacity>
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: item.imageUrl }} style={styles.image} />
+        </View>
+        <View style={styles.desc}>
+          <View style={styles.textContainer}>
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.difficult}>{item.difficult}</Text>
+          </View>
+          <TouchableOpacity onPress={() => setOptionVisible(!optionVisible)}>
+            <Ionicons name="ellipsis-vertical" size={24} color={COLORS.wht} />
+          </TouchableOpacity>
+        </View>
+      </View>
+      {optionVisible ? (
+        <View style={styles.optionWrapper}>
+          <View>
+            <TouchableOpacity style={styles.option1}>
+              <Ionicons name="add-sharp" size={24} color={COLORS.dark} />
+              <Text>Add To Calendar</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.option2}>
+              <Ionicons name="heart-outline" size={24} color={COLORS.dark} />
+              <Text>Add To Favorite</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : (
+        <View></View>
+      )}
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    width: 200,
+    height: 165,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  imageContainer: {
+    flex: 1,
+  },
+  image: {
+    width: 200,
+    height: 165,
+    resizeMode: 'stretch',
+    borderRadius: 20,
+  },
+  desc: {
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    backgroundColor: COLORS.dark,
+    opacity: 0.6,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  textContainer: {},
+  name: {
+    fontFamily: 'bold',
+
+    color: COLORS.wht,
+  },
+  difficult: {
+    fontFamily: 'regular',
+    fontSize: SIZES.small,
+    color: COLORS.wht,
+  },
+  optionWrapper: {
+    position: 'absolute',
+    bottom: -10,
+    right: 40,
+    width: 160,
+    marginBottom: 30,
+    backgroundColor: COLORS.wht,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    elevation: 10,
+  },
+  option1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginVertical: 10,
+  },
+  option2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginVertical: 10,
+  },
+});
+
+export default PopRecipeCardView;
