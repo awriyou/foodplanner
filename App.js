@@ -12,6 +12,7 @@ import {Ionicons} from '@expo/vector-icons'
 import {COLORS, SIZES} from './constant/styles'
 import { useFonts } from 'expo-font';
 import { useCallback } from 'react';
+import DetailRecipeScreen from './screens/DetailRecipeScreen';
 
 
 
@@ -146,7 +147,6 @@ export default function App() {
         screenOptions={{
           headerStyle: { backgroundColor: COLORS.wht },
           headerTintColor: 'white',
-
         }}
       >
         <Stack.Screen
@@ -154,7 +154,11 @@ export default function App() {
           component={Tabs}
           options={{ headerShown: false }}
         />
-
+        <Stack.Screen
+          name="DetailRecipe"
+          component={DetailRecipeScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

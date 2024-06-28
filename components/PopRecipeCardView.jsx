@@ -2,11 +2,15 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES } from '../constant/styles';
+import { useNavigation } from '@react-navigation/native';
 
 const PopRecipeCardView = ({ item }) => {
+  const navigation = useNavigation();
   const [optionVisible, setOptionVisible] = useState(false);
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('DetailRecipe', { item })}
+    >
       <View style={styles.container}>
         <View style={styles.imageContainer}>
           <Image source={{ uri: item.imageUrl }} style={styles.image} />
