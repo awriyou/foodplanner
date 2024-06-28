@@ -92,7 +92,6 @@ const DetailRecipeScreen = ({ navigation }) => {
                 <Text style={styles.toggleText}> Steps </Text>
               </TouchableOpacity>
             </View>
-
             <View style={styles.list}>
               <FlatList
                 data={toggle ? item.ingredients : item.steps}
