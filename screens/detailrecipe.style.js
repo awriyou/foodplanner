@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   containerInfoWrapper: {
-    marginTop: -100,
+    marginTop: -60,
   },
   infoWrapper: {
     backgroundColor: COLORS.wht,
