@@ -13,14 +13,8 @@ const styles = StyleSheet.create({
   },
   containerInfoWrapper: {
     marginTop: -100,
-    // width: '100%',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // position: 'relative',
-    // bottom: -910,
   },
   infoWrapper: {
-    // width: 300,
     backgroundColor: COLORS.wht,
     borderRadius: SIZES.small,
     marginHorizontal: 40,
@@ -69,8 +63,6 @@ const styles = StyleSheet.create({
   },
 
   descWrapper: {
-    // flex: 1,
-    // width: 300,
     marginTop: 10,
     marginHorizontal: 40,
     backgroundColor: COLORS.wht,
@@ -87,7 +79,6 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     paddingHorizontal: 15,
     borderRadius: 10,
-    // marginHorizontal: 5,
     marginVertical: 10,
     elevation: 10,
   },
@@ -96,19 +87,21 @@ const styles = StyleSheet.create({
     color: COLORS.gray,
   },
   list: {
-    marginTop: 10,
-    marginBottom: 100,
     paddingVertical: 10,
-    // flexBasis: 'auto'
+    paddingHorizontal: 10,
+    height: 300,
   },
+  ingredientsContainer: {
+    flex: 1,
+  },
+  
   ingredients: {
-    flex: 1 ,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     gap: 10,
     paddingRight: 45,
-    marginVertical: 2,
+    marginVertical: 5,
   },
   gram: {
     fontFamily: 'bold',
@@ -119,6 +112,8 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     textAlign: 'justify',
   },
+
+  
 });
 
 export default styles;
