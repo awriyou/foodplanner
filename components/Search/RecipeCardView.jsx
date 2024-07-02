@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES } from '../../constant/styles';
 import { useNavigation } from '@react-navigation/native';
 
-const RecipeCardView = ({ item }) => {
+const RecipeCardView = ({ item, search }) => {
   const navigation = useNavigation();
   const [optionVisible, setOptionVisible] = useState(false);
   return (
@@ -21,9 +21,9 @@ const RecipeCardView = ({ item }) => {
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.difficult}>{item.difficult}</Text>
           </View>
-          <TouchableOpacity onPress={() => setOptionVisible(!optionVisible)}>
+          {search ? <TouchableOpacity onPress={() => setOptionVisible(!optionVisible)}>
             <Ionicons name="ellipsis-vertical" size={24} color={COLORS.wht} />
-          </TouchableOpacity>
+          </TouchableOpacity> : <></>}
         </View>
       {optionVisible ? (
         <View style={styles.optionWrapper}>

@@ -153,7 +153,7 @@ export default function App() {
           headerTitleStyle: {
             color: COLORS.primary,
             fontFamily: 'bold',
-            fontSize: SIZES.large,
+            fontSize: SIZES.xLarge -2,
           },
           headerTintColor: 'white',
           headerLeft: () => <BackButtonNav />,
@@ -172,7 +172,7 @@ export default function App() {
         <Stack.Screen
           name="ChangePassword"
           component={ChangePasswordScreen}
-          options={{}}
+          options={{ title: 'Change Password' }}
         />
         <Stack.Screen
           name="LikedRecipes"

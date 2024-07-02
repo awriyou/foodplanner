@@ -5,7 +5,7 @@ import { SIZES } from "../../constant/styles";
 import styles from "./reciperow.style";
 
 const RecipeRow = () => {
-    
+  const [isSearch, setIsSearch] = useState(true)
   const recipeData = [
     {
       name: 'Nasi Goreng Kemangi',
@@ -279,7 +279,7 @@ const RecipeRow = () => {
         data={recipeData}
         numColumns={2}
         // contentContainerStyle={{ columnGap: SIZES.medium }}
-        renderItem={({ item }) => <RecipeCardView item={item} />}
+        renderItem={({ item }) => <RecipeCardView item={item} search={isSearch}/>}
       />
     </View>
   );
