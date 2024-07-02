@@ -25,7 +25,6 @@ const RecipeCardView = ({ item }) => {
             <Ionicons name="ellipsis-vertical" size={24} color={COLORS.wht} />
           </TouchableOpacity>
         </View>
-      </View>
       {optionVisible ? (
         <View style={styles.optionWrapper}>
           <View>
@@ -44,6 +43,7 @@ const RecipeCardView = ({ item }) => {
       ) : (
         <View></View>
       )}
+      </View>
     </TouchableOpacity>
   );
 };
@@ -53,18 +53,17 @@ export default RecipeCardView;
 const styles = StyleSheet.create({
   containerWrapper: {
     // flex: 1,
-    width: 180,
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    marginHorizontal: 5,
-    justifyContent: 'center',
-    alignItems: 'center'
+    width: SIZES.width / 2 - 10,
+    gap: 8,
+    paddingHorizontal: 2,
+    alignItems: 'center',
+    // overflow: 'hidden'
 },
 container: {
     flex: 1,
     width: '100%',
-    height: 165,
-    marginTop: 20,
+    height: SIZES.height / 5,
+    marginTop: 4,
     // marginBottom: 20,
   },
   imageContainer: {
@@ -99,25 +98,26 @@ container: {
   },
   optionWrapper: {
     position: 'absolute',
-    bottom: -10,
-    right: 40,
+    bottom: 30,
+    right: 10,
     width: 160,
     marginBottom: 30,
     backgroundColor: COLORS.wht,
     borderRadius: 20,
     paddingHorizontal: 10,
     elevation: 10,
+    opacity: 0.8
   },
   option1: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 8,
     marginVertical: 10,
   },
   option2: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 8,
     marginVertical: 10,
   },
 });
