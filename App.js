@@ -1,6 +1,6 @@
 // import { StatusBar } from 'expo-status-bar';
 // import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FoodPlannerScreen from './screens/FoodPlannerScreen';
@@ -8,18 +8,16 @@ import HomeScreen from './screens/HomeScreen';
 import SearchRecipeScreen from './screens/SearchRecipeScreen';
 import BasketScreen from './screens/BasketScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import {Ionicons} from '@expo/vector-icons'
-import {COLORS, SIZES} from './constant/styles'
+import { Ionicons } from '@expo/vector-icons';
+import { COLORS, SIZES } from './constant/styles';
 import { useFonts } from 'expo-font';
 import { useCallback } from 'react';
 import DetailRecipeScreen from './screens/DetailRecipeScreen';
 import ChangePasswordScreen from './screens/ChangePasswordScreen';
 import LikedRecipesScreen from './screens/LikedRecipesScreen';
 import SettingScreen from './screens/SettingScreen';
-
-
-
-
+import { TouchableOpacity } from 'react-native';
+import BackButtonNav from './components/Header/BackButtonNav';
 
 const screenOptions = {
   tabBarShowLabel: false,
@@ -120,7 +118,6 @@ function Tabs() {
           },
         }}
       />
-
     </BottomTabs.Navigator>
   );
 }
@@ -144,13 +141,22 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerStyle: { backgroundColor: COLORS.wht },
+          headerStyle: {
+            backgroundColor: COLORS.wht,
+            justifyContent: 'center',
+          },
+          headerTitleStyle: {
+            color: COLORS.primary,
+            fontFamily: 'bold',
+            fontSize: SIZES.large,
+          },
           headerTintColor: 'white',
+          headerLeft: () => <BackButtonNav />,
         }}
       >
         <Stack.Screen
@@ -171,14 +177,11 @@ export default function App() {
         <Stack.Screen
           name="LikedRecipes"
           component={LikedRecipesScreen}
-          options={{}}
+          options={{
+            title: 'Your Recipes',
+          }}
         />
-        <Stack.Screen
-          name="Setting"
-          component={SettingScreen}
-          options={{}}
-        />
-
+        <Stack.Screen name="Setting" component={SettingScreen} options={{}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
