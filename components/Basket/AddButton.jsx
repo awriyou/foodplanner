@@ -3,9 +3,12 @@ import React from "react";
 import {Ionicons} from '@expo/vector-icons'
 import { COLORS, SHADOWS } from "../../constant/styles";
 
-const AddButton = () => {
+const AddButton = ({setModalVisible}) => {
   return (
-    <TouchableOpacity style={styles.addBtn}>
+    <TouchableOpacity
+      style={styles.addBtn}
+      onPress={() => setModalVisible(true)}
+    >
       {/* <Text style={styles.textBtn}>Add List</Text> */}
       <Ionicons name="bag-add" size={30} color={COLORS.wht} />
     </TouchableOpacity>

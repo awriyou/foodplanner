@@ -7,7 +7,7 @@ const BasketScreen = () => {
     return (
       <SafeAreaView style={{ flex: 1, }}>
         <ListBody />
-        <AddButton />
+        {/* <AddButton /> */}
       </SafeAreaView>
     );
 }

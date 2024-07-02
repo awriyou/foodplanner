@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  uncheckedList:{
+  uncheckedList: {
     marginTop: 10,
     paddingHorizontal: 2,
   },
@@ -80,7 +80,70 @@ const styles = StyleSheet.create({
     gap: 10,
   },
 
-
+  ModalCenteredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.dark,
+    opacity: 0.8,
+  },
+  modalView: {
+    width: SIZES.width - 100,
+    height: SIZES.height - 650,
+    backgroundColor: COLORS.wht,
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    //?============================
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  inputWrapper: {
+    flexDirection: 'row',
+    gap: 5,
+    marginVertical: 10,
+  },
+  inputName: {
+    flex: 3,
+    height: 45,
+    backgroundColor: COLORS.gray2,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    color: COLORS.primary,
+    fontFamily: 'semiBold',
+  },
+  inputQty: {
+    flex: 1,
+    height: 45,
+    backgroundColor: COLORS.gray2,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    color: COLORS.primary,
+    fontFamily: 'semiBold',
+  },
+  saveListBtn: {
+    flexDirection: 'row',
+    backgroundColor: COLORS.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 50,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+    marginTop: 20,
+  },
+  saveListBtnText:{
+    fontFamily: 'semiBold',
+    color: COLORS.wht,
+  },
 });
 
 export default styles;
