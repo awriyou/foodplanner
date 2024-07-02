@@ -13,6 +13,9 @@ import {COLORS, SIZES} from './constant/styles'
 import { useFonts } from 'expo-font';
 import { useCallback } from 'react';
 import DetailRecipeScreen from './screens/DetailRecipeScreen';
+import ChangePasswordScreen from './screens/ChangePasswordScreen';
+import LikedRecipesScreen from './screens/LikedRecipesScreen';
+import SettingScreen from './screens/SettingScreen';
 
 
 
@@ -141,6 +144,7 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+  
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -159,6 +163,22 @@ export default function App() {
           component={DetailRecipeScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="ChangePassword"
+          component={ChangePasswordScreen}
+          options={{}}
+        />
+        <Stack.Screen
+          name="LikedRecipes"
+          component={LikedRecipesScreen}
+          options={{}}
+        />
+        <Stack.Screen
+          name="Setting"
+          component={SettingScreen}
+          options={{}}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -5,10 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../constant/styles';
 
 const Menus = ({
-  likedRecipe,
-  changePassword,
   darkMode,
-  settings,
   Logout,
   navigation,
 }) => {
@@ -18,7 +15,7 @@ const Menus = ({
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.buttonWrapper}
-          onPress={() => navigation.navigate('')}
+          onPress={() => navigation.navigate('LikedRecipes')}
         >
           <Ionicons name="heart" size={30} color={COLORS.primary} />
           <View style={styles.descIcon}>
@@ -34,7 +31,7 @@ const Menus = ({
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.buttonWrapper}
-          onPress={() => navigation.navigate('')}
+          onPress={() => navigation.navigate('ChangePassword')}
         >
           <Ionicons name="lock-closed" size={30} color={COLORS.primary} />
           <View style={styles.descIcon}>
@@ -66,7 +63,7 @@ const Menus = ({
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.buttonWrapper}
-          onPress={() => navigation.navigate('')}
+          onPress={() => navigation.navigate('Setting')}
         >
           <Ionicons name="settings" size={30} color={COLORS.primary} />
           <View style={styles.descIcon}>
