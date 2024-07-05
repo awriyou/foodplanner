@@ -72,9 +72,7 @@ const DetailRecipeScreen = ({ navigation }) => {
               </View>
               <View style={styles.detail}>
                 <Ionicons name="analytics" size={24} color={COLORS.secondary} />
-                <Text style={styles.detailText}>
-                  {item.steps.length} Steps
-                </Text>
+                <Text style={styles.detailText}>{item.steps.length} Steps</Text>
               </View>
             </View>
             <View style={styles.likedBy}>
@@ -87,7 +85,9 @@ const DetailRecipeScreen = ({ navigation }) => {
                 style={[
                   styles.toggle,
                   {
-                    backgroundColor: toggle ? COLORS.primary : COLORS.wht, borderTopLeftRadius: 10, borderBottomLeftRadius: 10
+                    backgroundColor: toggle ? COLORS.primary : COLORS.wht,
+                    borderTopLeftRadius: 10,
+                    borderBottomLeftRadius: 10,
                   },
                 ]}
                 onPress={() => setToggle(!toggle)}
@@ -98,7 +98,9 @@ const DetailRecipeScreen = ({ navigation }) => {
                 style={[
                   styles.toggle,
                   {
-                    backgroundColor: !toggle ? COLORS.primary : COLORS.wht, borderTopRightRadius: 10, borderBottomRightRadius: 10
+                    backgroundColor: !toggle ? COLORS.primary : COLORS.wht,
+                    borderTopRightRadius: 10,
+                    borderBottomRightRadius: 10,
                   },
                 ]}
                 onPress={() => setToggle(!toggle)}
