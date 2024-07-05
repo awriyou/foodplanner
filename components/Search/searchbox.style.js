@@ -4,16 +4,15 @@ import {COLORS, SIZES, SHADOWS} from '../../constant/styles'
 
 const styles = StyleSheet.create({
   searchContainer: {
+    // flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    // alignContent: 'center',
-    // backgroundColor: COLORS.wht,
     backgroundColor: COLORS.wht,
     elevation: 10,
     opacity: 0.9,
     borderRadius: SIZES.medium,
-    marginVertical: 35,
+    marginVertical: 25,
     marginHorizontal: 50,
     height: 55,
     paddingRight: 10,
@@ -22,12 +21,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     color: COLORS.dark,
   },
-  searchWrapper: {
-    flex: 1,
-    // marginRight: SIZES.small,
-    borderRadius: SIZES.small,
-  },
+
   searchInput: {
+    width: 160,
     fontFamily: 'bold',
     fontSize: SIZES.medium,
     paddingHorizontal: SIZES.small,
@@ -40,7 +36,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     borderRadius: SIZES.medium,
     paddingVertical: 5,
-    // paddingHorizontal: 1
   },
   textBtn: {
     fontFamily: 'bold',

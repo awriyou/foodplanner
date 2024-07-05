@@ -14,35 +14,41 @@ const RecipeCardView = ({ item, search }) => {
     >
       <View style={styles.container}>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: item.imageUrl }} style={styles.image} />
+          <Image source={{ uri: item.recipe_img }} style={styles.image} />
         </View>
         <View style={styles.desc}>
           <View style={styles.textContainer}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.difficult}>{item.difficult}</Text>
+            <Text style={styles.name} numberOfLines={1}>
+              {item.name}
+            </Text>
+            <Text style={styles.difficult}>{item.level}</Text>
           </View>
-          {search ? <TouchableOpacity onPress={() => setOptionVisible(!optionVisible)}>
-            <Ionicons name="ellipsis-vertical" size={24} color={COLORS.wht} />
-          </TouchableOpacity> : <></>}
-        </View>
-      {optionVisible ? (
-        <View style={styles.optionWrapper}>
-          <View>
-            <TouchableOpacity style={styles.option1}>
-              <Ionicons name="add-sharp" size={24} color={COLORS.dark} />
-              <Text>Add To Calendar</Text>
+          {search ? (
+            <TouchableOpacity onPress={() => setOptionVisible(!optionVisible)}>
+              <Ionicons name="ellipsis-vertical" size={24} color={COLORS.wht} />
             </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity style={styles.option2}>
-              <Ionicons name="heart-outline" size={24} color={COLORS.dark} />
-              <Text>Add To Favorite</Text>
-            </TouchableOpacity>
-          </View>
+          ) : (
+            <></>
+          )}
         </View>
-      ) : (
-        <View></View>
-      )}
+        {optionVisible ? (
+          <View style={styles.optionWrapper}>
+            <View>
+              <TouchableOpacity style={styles.option1}>
+                <Ionicons name="add-sharp" size={24} color={COLORS.dark} />
+                <Text>Add To Calendar</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.option2}>
+                <Ionicons name="heart-outline" size={24} color={COLORS.dark} />
+                <Text>Add To Favorite</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <View></View>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -58,13 +64,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     alignItems: 'center',
     // overflow: 'hidden'
-},
-container: {
+  },
+  container: {
     flex: 1,
     width: '100%',
     height: SIZES.height / 5,
-    marginTop: 4,
-    // marginBottom: 20,
+    marginBottom: 10,
   },
   imageContainer: {
     flex: 1,
@@ -72,7 +77,8 @@ container: {
   image: {
     width: '100%',
     height: 165,
-    resizeMode: 'stretch',
+    resizeMode: 'cover',
+    overflow:'hidden',
     borderRadius: 20,
   },
   desc: {
@@ -88,7 +94,8 @@ container: {
   textContainer: {},
   name: {
     fontFamily: 'bold',
-
+    width: 130,
+    height: 20,
     color: COLORS.wht,
   },
   difficult: {
@@ -106,7 +113,7 @@ container: {
     borderRadius: 20,
     paddingHorizontal: 10,
     elevation: 10,
-    opacity: 0.8
+    opacity: 0.8,
   },
   option1: {
     flexDirection: 'row',

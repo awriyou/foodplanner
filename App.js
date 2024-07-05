@@ -18,6 +18,7 @@ import LikedRecipesScreen from './screens/LikedRecipesScreen';
 import SettingScreen from './screens/SettingScreen';
 import { TouchableOpacity } from 'react-native';
 import BackButtonNav from './components/Header/BackButtonNav';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const screenOptions = {
   tabBarShowLabel: false,
@@ -143,46 +144,48 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: COLORS.wht,
-            justifyContent: 'center',
-          },
-          headerTitleStyle: {
-            color: COLORS.primary,
-            fontFamily: 'bold',
-            fontSize: SIZES.xLarge -2,
-          },
-          headerTintColor: 'white',
-          headerLeft: () => <BackButtonNav />,
-        }}
-      >
-        <Stack.Screen
-          name="Tabs"
-          component={Tabs}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="DetailRecipe"
-          component={DetailRecipeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ChangePassword"
-          component={ChangePasswordScreen}
-          options={{ title: 'Change Password' }}
-        />
-        <Stack.Screen
-          name="LikedRecipes"
-          component={LikedRecipesScreen}
-          options={{
-            title: 'Your Recipes',
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: COLORS.wht,
+              justifyContent: 'center',
+            },
+            headerTitleStyle: {
+              color: COLORS.primary,
+              fontFamily: 'bold',
+              fontSize: SIZES.xLarge - 2,
+            },
+            headerTintColor: 'white',
+            headerLeft: () => <BackButtonNav />,
           }}
-        />
-        <Stack.Screen name="Setting" component={SettingScreen} options={{}} />
-      </Stack.Navigator>
-    </NavigationContainer>
+        >
+          <Stack.Screen
+            name="Tabs"
+            component={Tabs}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DetailRecipe"
+            component={DetailRecipeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ChangePassword"
+            component={ChangePasswordScreen}
+            options={{ title: 'Change Password' }}
+          />
+          <Stack.Screen
+            name="LikedRecipes"
+            component={LikedRecipesScreen}
+            options={{
+              title: 'Your Recipes',
+            }}
+          />
+          <Stack.Screen name="Setting" component={SettingScreen} options={{}} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }

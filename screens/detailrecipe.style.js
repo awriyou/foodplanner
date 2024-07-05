@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
   toggle: {
     paddingVertical: 7,
     paddingHorizontal: 15,
-    borderRadius: 10,
     marginVertical: 10,
     elevation: 10,
   },
