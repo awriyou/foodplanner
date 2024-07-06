@@ -12,7 +12,7 @@ const BroBy = () => {
   const fetchCategory = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://192.168.18.5:3000/api/categories/');
+      const response = await axios.get('http://192.168.1.7:3000/api/categories/');
       setCategory(response.data);
       // console.log(response.data);
     } catch (error) {

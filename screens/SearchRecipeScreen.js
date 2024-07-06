@@ -7,21 +7,26 @@ import axios from 'axios';
 import { SIZES } from '../constant/styles';
 import useFetch from '../hook/useFetch';
 import { useRoute } from '@react-navigation/native';
+// import { useEnvironment } from 'react-native-dotenv';
 
+// const env = useEnvironment();
 const SearchRecipeScreen = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [categoryData, setCategoryData] = useState(null); // State for category data
 
   const route = useRoute();
-  const { category } = route.params;
+  const { category } = route.params || {};
+
 
   useEffect(() => {
     const fetchData = async () => {
       if (category) {
+        setSearchInput('')
         try {
           const response = await axios.get(
-            `http://192.168.18.5:3000/api/recipes/categories/${category._id}`
+            `http://192.168.1.7:3000/api/recipes/categories/${category._id}`
+            // `${env.ep}api/recipes/categories/${category._id}`
           );
           setCategoryData(response.data);
         } catch (error) {
@@ -31,14 +36,15 @@ const SearchRecipeScreen = () => {
     };
 
     fetchData();
-  }, [category, searchInput]); // Re-fetch on category change
+  }, [category]); // Re-fetch on category change
 
   const { data } = useFetch(); // Use data from useFetch hook
 
   async function handleSearch() {
     try {
       const response = await axios.get(
-        `http://192.168.18.5:3000/api/recipes/search/${searchInput}`
+        `http://192.168.1.7:3000/api/recipes/search/${searchInput}`
+        // `${env.ep}api/recipes/search/${searchInput}`
       );
       setSearchResult(response.data);
     } catch (error) {
@@ -47,7 +53,7 @@ const SearchRecipeScreen = () => {
   }
 
   return (
-    <SafeAreaView style={{}}>
+    <SafeAreaView>
       <SearchBox
         query={searchInput}
         setQuery={setSearchInput}
