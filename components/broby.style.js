@@ -3,9 +3,9 @@ import { COLORS, SIZES } from "../constant/styles";
 
 const styles = StyleSheet.create({
   broByContainer: {
-    marginHorizontal: 20,
     flex: 1,
-    marginBottom: 100,
+    marginHorizontal: 20,
+    marginBottom: 120,
   },
   broByText: {
     fontFamily: 'bold',

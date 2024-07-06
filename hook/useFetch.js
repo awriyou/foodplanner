@@ -20,6 +20,8 @@ const useFetch = () => {
     }
   };
 
+  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -29,7 +31,7 @@ const useFetch = () => {
     fetchData();
   };
 
-  return { data, isLoading, error, refetch };
+  return { data, isLoading, error, refetch};
 };
 
 export default useFetch;
