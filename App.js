@@ -19,6 +19,7 @@ import SettingScreen from './screens/SettingScreen';
 import { TouchableOpacity } from 'react-native';
 import BackButtonNav from './components/Header/BackButtonNav';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import AuthScreen from './screens/AuthScreen';
 
 const screenOptions = {
   tabBarShowLabel: false,
@@ -39,6 +40,22 @@ const BottomTabs = createBottomTabNavigator();
 function Tabs() {
   return (
     <BottomTabs.Navigator screenOptions={screenOptions}>
+      <BottomTabs.Screen
+        name="Auth"
+        component={AuthScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name={focused ? 'home' : 'home-outline'}
+                size={24}
+                color={focused ? COLORS.primary2 : COLORS.primary}
+              />
+            );
+          },
+          headerShown: false,
+        }}
+      />
       <BottomTabs.Screen
         name="Home"
         component={HomeScreen}
@@ -161,6 +178,11 @@ export default function App() {
             headerLeft: () => <BackButtonNav />,
           }}
         >
+          {/* <Stack.Screen
+            name="Auth"
+            component={AuthScreen}
+            options={{ headerShown: false }}
+          /> */}
           <Stack.Screen
             name="Tabs"
             component={Tabs}
