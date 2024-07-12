@@ -40,7 +40,7 @@ const BottomTabs = createBottomTabNavigator();
 function Tabs() {
   return (
     <BottomTabs.Navigator screenOptions={screenOptions}>
-      <BottomTabs.Screen
+      {/* <BottomTabs.Screen
         name="Auth"
         component={AuthScreen}
         options={{
@@ -55,7 +55,7 @@ function Tabs() {
           },
           headerShown: false,
         }}
-      />
+      /> */}
       <BottomTabs.Screen
         name="Home"
         component={HomeScreen}
@@ -178,11 +178,11 @@ export default function App() {
             headerLeft: () => <BackButtonNav />,
           }}
         >
-          {/* <Stack.Screen
+          <Stack.Screen
             name="Auth"
             component={AuthScreen}
             options={{ headerShown: false }}
-          /> */}
+          />
           <Stack.Screen
             name="Tabs"
             component={Tabs}

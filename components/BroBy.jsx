@@ -7,12 +7,13 @@ import axios from 'axios';
 import useFetch from '../hook/useFetch';
 
 const BroBy = () => {
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
   const [isLoading, setIsLoading] = useState(false);
   const [category, setCategory] = useState([]);
   const fetchCategory = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://192.168.1.7:3000/api/categories/');
+      const response = await axios.get(`${apiUrl}api/categories/`);
       setCategory(response.data);
       // console.log(response.data);
     } catch (error) {

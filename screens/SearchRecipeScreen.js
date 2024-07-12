@@ -11,6 +11,8 @@ import { useRoute } from '@react-navigation/native';
 
 // const env = useEnvironment();
 const SearchRecipeScreen = () => {
+  
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
   const [searchInput, setSearchInput] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [categoryData, setCategoryData] = useState(null); // State for category data
@@ -25,8 +27,7 @@ const SearchRecipeScreen = () => {
         setSearchInput('')
         try {
           const response = await axios.get(
-            `http://192.168.1.7:3000/api/recipes/categories/${category._id}`
-            // `${env.ep}api/recipes/categories/${category._id}`
+            `${apiUrl}api/recipes/categories/${category._id}`
           );
           setCategoryData(response.data);
         } catch (error) {
@@ -43,7 +44,7 @@ const SearchRecipeScreen = () => {
   async function handleSearch() {
     try {
       const response = await axios.get(
-        `http://192.168.1.7:3000/api/recipes/search/${searchInput}`
+        `${apiUrl}api/recipes/search/${searchInput}`
         // `${env.ep}api/recipes/search/${searchInput}`
       );
       setSearchResult(response.data);
