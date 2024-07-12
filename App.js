@@ -179,11 +179,6 @@ export default function App() {
           }}
         >
           <Stack.Screen
-            name="Auth"
-            component={AuthScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
             name="Tabs"
             component={Tabs}
             options={{ headerShown: false }}
@@ -206,6 +201,11 @@ export default function App() {
             }}
           />
           <Stack.Screen name="Setting" component={SettingScreen} options={{}} />
+          <Stack.Screen
+            name="Auth"
+            component={AuthScreen}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
