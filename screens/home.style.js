@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: 'semiBold',
     fontSize: 18,
+    marginLeft: 10,
   },
   heading2: {
     flexDirection: 'row',
