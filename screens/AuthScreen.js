@@ -5,14 +5,15 @@ import {
   TextInput,
   StyleSheet,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { COLORS, SHADOWS, SIZES } from '../constant/styles';
-import { Ionicons } from '@expo/vector-icons';
 import LoginForm from '../components/Auth/LoginForm';
 import RegisterForm from '../components/Auth/RegisterForm';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AuthScreen = () => {
+const AuthScreen = ({ navigation }) => {
   const [toggle, setToggle] = useState(true);
+
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
@@ -55,11 +56,7 @@ const AuthScreen = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {toggle ? (
-          <LoginForm toggle={toggle} />
-        ) : (
-          <RegisterForm toggle={toggle} />
-        )}
+        {toggle ? <LoginForm navigation={navigation} /> : <RegisterForm />}
       </View>
     </View>
   );

@@ -38,8 +38,7 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
   },
   detailWrapper: {
-    width: '100%',
-    paddingHorizontal: 60,
+    width: SIZES.width / 2 + 100,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

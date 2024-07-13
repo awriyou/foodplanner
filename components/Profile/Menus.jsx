@@ -1,15 +1,42 @@
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import styles from './menus.style';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../constant/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Menus = ({
   darkMode,
   Logout,
   navigation,
 }) => {
+  
   const [toggle, setToggle] = useState(false);
+
+
+    async function userLogout() {
+      const id = await AsyncStorage.getItem('id');
+      const useId = `user${JSON.parse(id)}`;
+      try {
+        await AsyncStorage.multiRemove([useId, 'id']);
+        navigation.replace('Tabs');
+      } catch (error) {
+        console.log('Error Logging out your account: ', error);
+      }
+    }
+
+    function logout() {
+      Alert.alert('Logout', 'Are you sure you want to logout?', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => userLogout() },
+        // { defaultIndex: 1 },
+      ]);
+    }
   return (
     <View style={{ justifyContent: 'center' }}>
       <View style={styles.container}>
@@ -79,7 +106,7 @@ const Menus = ({
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.buttonWrapper}
-          onPress={() => navigation.navigate('')}
+          onPress={() => {logout()}}
         >
           <Ionicons name="log-out" size={30} color={COLORS.primary} />
           <View style={styles.descIcon}>
