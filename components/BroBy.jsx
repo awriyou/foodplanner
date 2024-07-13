@@ -7,7 +7,7 @@ import axios from 'axios';
 import useFetch from '../hook/useFetch';
 
 const BroBy = () => {
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  const { apiUrl } = useFetch();
   const [isLoading, setIsLoading] = useState(false);
   const [category, setCategory] = useState([]);
   const fetchCategory = async () => {

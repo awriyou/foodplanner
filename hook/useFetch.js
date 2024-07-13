@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const useFetch = () => {
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  const apiUrl = `http://192.168.1.8:3000/`;
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -33,7 +33,7 @@ const useFetch = () => {
     fetchData();
   };
 
-  return { data, isLoading, error, refetch};
+  return { data, isLoading, error, refetch, apiUrl};
 };
 
 export default useFetch;

@@ -15,6 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import useFetch from '../../hook/useFetch';
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -26,7 +27,9 @@ const validationSchema = Yup.object({
 });
 
 const LoginForm = ({ navigation }) => {
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  // const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  
+  const { apiUrl } = useFetch();
   const [obsecureText, setObsecureText] = useState(true);
   const [loader, setLoader] = useState(false);
 

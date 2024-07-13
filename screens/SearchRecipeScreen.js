@@ -12,7 +12,8 @@ import { useRoute } from '@react-navigation/native';
 // const env = useEnvironment();
 const SearchRecipeScreen = () => {
   
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  const { apiUrl } = useFetch();
+  // const apiUrl = process.env.EXPO_PUBLIC_API_URL;
   const [searchInput, setSearchInput] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [categoryData, setCategoryData] = useState(null); // State for category data
