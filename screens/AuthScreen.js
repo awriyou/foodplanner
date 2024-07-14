@@ -10,9 +10,17 @@ import { COLORS, SHADOWS, SIZES } from '../constant/styles';
 import LoginForm from '../components/Auth/LoginForm';
 import RegisterForm from '../components/Auth/RegisterForm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRoute } from '@react-navigation/native';
 
 const AuthScreen = ({ navigation }) => {
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(false);
+  const route = useRoute();
+
+  useEffect(() => {
+    if (route.params?.isLogin) {
+      setToggle(true);
+    }
+  }, [route.params]);
 
   return (
     <View style={styles.screen}>
@@ -56,7 +64,11 @@ const AuthScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
-        {toggle ? <LoginForm navigation={navigation} /> : <RegisterForm />}
+        {toggle ? (
+          <LoginForm navigation={navigation} />
+        ) : (
+          <RegisterForm navigation={navigation} />
+        )}
       </View>
     </View>
   );
