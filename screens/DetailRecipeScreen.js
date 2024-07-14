@@ -19,6 +19,15 @@ const DetailRecipeScreen = ({ navigation }) => {
   const [toggle, setToggle] = useState(true);
   const route = useRoute();
   const { item } = route.params;
+
+  const formatText = (text) => {
+    const upper = text.toUpperCase();
+    const words = upper.split(' ');
+    if (words.length > 4) {
+      return `${words.slice(0, 4).join(' ')}\n${words.slice(4).join(' ')}`;
+    }
+    return text;
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <BackButton />
@@ -29,8 +38,8 @@ const DetailRecipeScreen = ({ navigation }) => {
         <View style={styles.containerInfoWrapper}>
           <View style={styles.infoWrapper}>
             <View style={styles.titleIconWrapper}>
-              <Text style={styles.title} numberOfLines={1}>
-                {item.name}
+              <Text style={styles.title} numberOfLines={2}>
+                {formatText(item.name)}
               </Text>
               <View style={styles.iconWrapper}>
                 <TouchableOpacity>
