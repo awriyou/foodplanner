@@ -6,19 +6,90 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './detailrecipe.style';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SIZES } from '../constant/styles';
 import BackButton from '../components/Header/BackButton';
 import { useRoute } from '@react-navigation/native';
+import useFetch from '../hook/useFetch';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const DetailRecipeScreen = ({ navigation }) => {
+  const { apiUrl } = useFetch();
+  const [userLogin, setUserLogin] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [toggle, setToggle] = useState(true);
   const route = useRoute();
   const { item } = route.params;
+
+  async function favoriteOrNot() {
+    const id = await AsyncStorage.getItem('id');
+    const parsedId = JSON.parse(id);
+    const useId = `user${JSON.parse(id)}`;
+    const currentUser = await AsyncStorage.getItem(useId);
+
+    if (currentUser !== null){
+      setUserLogin(true);
+    }
+      try {
+        const response = await axios.get(
+          `${apiUrl}api/users/favorite/${parsedId}`
+        );
+        // Check if the response contains any favorite recipes
+        if (response.data.length > 0) {
+          const favoriteRecipe = response.data.find(
+            (favorite) => favorite._id === item._id
+          );
+          if (favoriteRecipe) {
+            setIsLiked(true);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching favorite recipes:', error);
+      }
+  }
+
+  // Function to add recipe to favorites
+  async function addToFavorites() {
+    const id = await AsyncStorage.getItem('id');
+    const parsedId = JSON.parse(id);
+    try {
+      const response = await axios.post(
+        `${apiUrl}api/users/favorite`,
+        { id:parsedId, recipeId: item._id }
+      );
+      if (response.status === 200) {
+        setIsLiked(true); // Update favorite recipe id
+      }
+    } catch (error) {
+      console.error('Error adding to favorites:', error);
+    }
+  }
+
+  // Function to remove recipe from favorites
+  async function removeFromFavorites() {
+    const id = await AsyncStorage.getItem('id');
+    const parsedId = JSON.parse(id);
+    try {
+
+      const response = await axios.delete(
+        `${apiUrl}api/users/favorite/${parsedId}`,
+        { data: { recipeId: item._id } }
+      );
+      if (response.status === 200) {
+        setIsLiked(false); // Clear favorite recipe id
+      }
+    } catch (error) {
+      console.error('Error removing from favorites:', error);
+    }
+  }
+
+  useEffect(() => {
+    favoriteOrNot();
+  }, []);
 
   const formatText = (text) => {
     const upper = text.toUpperCase();
@@ -50,17 +121,25 @@ const DetailRecipeScreen = ({ navigation }) => {
                     style={{ marginRight: 10 }}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    setIsLiked(!isLiked);
-                  }}
-                >
-                  <Ionicons
-                    name={isLiked ? 'heart' : 'heart-outline'}
-                    size={24}
-                    color={COLORS.secondary}
-                  />
-                </TouchableOpacity>
+                {userLogin ? (
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (isLiked) {
+                        removeFromFavorites();
+                      } else {
+                        addToFavorites();
+                      }
+                    }}
+                  >
+                    <Ionicons
+                      name={isLiked ? 'heart' : 'heart-outline'}
+                      size={24}
+                      color={COLORS.secondary}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <View></View>
+                )}
               </View>
             </View>
 

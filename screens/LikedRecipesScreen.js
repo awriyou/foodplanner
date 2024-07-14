@@ -1,5 +1,5 @@
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import recipeData from '../store/data';
 import { SIZES } from '../constant/styles';
 import RecipeCardView from '../components/Search/RecipeCardView';
@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import useFetch from '../hook/useFetch';
 import MustLogin from '../components/Auth/MustLogin';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 const LikedRecipesScreen = ({navigation}) => {
   const { apiUrl } = useFetch();
@@ -27,6 +28,7 @@ const LikedRecipesScreen = ({navigation}) => {
       if (currentUser !== null) {
         const parsedData = JSON.parse(currentUser);
         setUserData(parsedData);
+        // console.log(userData)
         setUserLogin(true);
       } else {
         navigation.navigate('Auth');
@@ -38,11 +40,11 @@ const LikedRecipesScreen = ({navigation}) => {
 
   async function getFavoriteData() {
     const id = await AsyncStorage.getItem('id');
-    const parsedData = JSON.parse(id);
+    const parsedId = JSON.parse(id);
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `${apiUrl}api/users/favorite/${parsedData}`
+        `${apiUrl}api/users/favorite/${parsedId}`
       );
       setLikedRecipes(response.data);
       // console.log(likedRecipes)
@@ -53,10 +55,12 @@ const LikedRecipesScreen = ({navigation}) => {
     }
   }
 
-    useEffect(() => {
-      checkExistingUser();
-      getFavoriteData();
-    }, []);
+ useFocusEffect(
+   useCallback(() => {
+    checkExistingUser();
+     getFavoriteData();
+   }, [])
+ );
 
   return (
     <View style={styles.containerList}>
