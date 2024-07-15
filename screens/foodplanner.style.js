@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   },
   addBtn: {
     flex: 2,
-    // paddingHorizontal: 10,
     paddingVertical: 9,
     flexDirection: 'row',
     backgroundColor: COLORS.primary,
@@ -132,131 +131,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     backgroundColor: COLORS.wht,
   },
-
-  //! ====
 });
 
-// export default styles;
-
-
-// import { StyleSheet } from 'react-native';
-// import { COLORS, SIZES } from '../constant/styles';
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: COLORS.white,
-//   },
-//   imageBg: {
-//     position: 'absolute',
-//     top: SIZES.height / 2 - 300,
-//     left: SIZES.width / 2 - 100,
-//     zIndex: -1,
-//     width: 200,
-//     height: 200,
-//   },
-//   calendarWrapper: {
-//     width: '100%',
-//     opacity: 0.6,
-//     backgroundColor: COLORS.wht,
-//     elevation: 10,
-//     borderRadius: 20,
-//   },
-//   headerWrapper: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     padding: SIZES.medium,
-//   },
-//   headerTitle: {
-//     fontSize: SIZES.large,
-//     fontWeight: 'bold',
-//   },
-//   modal: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: 'rgba(0,0,0,0.5)',
-//   },
-//   modalContainer: {
-//     width: '80%',
-//     padding: SIZES.medium,
-//     backgroundColor: COLORS.wht,
-//     borderRadius: SIZES.small,
-//   },
-//   inputWrapper: {
-//     marginBottom: SIZES.medium,
-//   },
-//   inputName: {
-//     height: 40,
-//     borderColor: COLORS.gray,
-//     borderWidth: 1,
-//     paddingHorizontal: SIZES.small,
-//     borderRadius: SIZES.small,
-//   },
-//   likedRecipeWrapper: {
-//     marginBottom: SIZES.medium,
-//   },
-//   titleModal: {
-//     fontSize: SIZES.medium,
-//     fontWeight: 'bold',
-//     marginBottom: SIZES.small,
-//   },
-//   listFavorite: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     padding: SIZES.small,
-//     borderRadius: SIZES.small,
-//     borderColor: COLORS.gray,
-//     borderWidth: 1,
-//     marginBottom: SIZES.small,
-//   },
-//   imageList: {
-//     width: 40,
-//     height: 40,
-//     borderRadius: SIZES.small,
-//     marginRight: SIZES.small,
-//   },
-//   titleList: {
-//     fontSize: SIZES.medium,
-//     flex: 1,
-//   },
-//   footer: {
-//     marginBottom: SIZES.medium,
-//   },
-//   input: {
-//     height: 40,
-//     borderColor: COLORS.gray,
-//     borderWidth: 1,
-//     paddingHorizontal: SIZES.small,
-//     borderRadius: SIZES.small,
-//     justifyContent: 'center',
-//   },
-//   inputText: {
-//     fontSize: SIZES.medium,
-//   },
-//   wrapperTime: {
-//     borderColor: COLORS.gray,
-//     borderWidth: 1,
-//     borderRadius: SIZES.small,
-//     marginTop: SIZES.small,
-//   },
-//   listTime: {
-//     padding: SIZES.small,
-//     borderBottomWidth: 1,
-//     borderBottomColor: COLORS.lightGray,
-//   },
-//   buttonAdd: {
-//     backgroundColor: COLORS.primary,
-//     padding: SIZES.medium,
-//     borderRadius: SIZES.small,
-//     alignItems: 'center',
-//   },
-//   buttonAddText: {
-//     color: COLORS.white,
-//     fontSize: SIZES.medium,
-//     fontWeight: 'bold',
-//   },
-// });
 
 export default styles;

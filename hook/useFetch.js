@@ -13,8 +13,6 @@ const useFetch = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      
-      // const response = await axios.get(`${env.ep}api/recipes/`);
       const response = await axios.get(`${apiUrl}api/recipes/`);
       setData(response.data);
       setIsLoading(false);
