@@ -106,7 +106,6 @@ const ListBody = () => {
           animationType="slide"
           transparent={true}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
             setModalVisible(!modalVisible);
           }}
         >
