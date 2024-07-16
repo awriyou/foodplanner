@@ -97,10 +97,7 @@ const FoodPlannerScreen = ({ navigation }) => {
     const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
     const parsedId = JSON.parse(userId);
     const recipeId = selectedRecipe._id; // Asumsikan resep memiliki ID
-    // console.log(parsedId)
-    // console.log(selectedRecipe._id)
-    // console.log(selectedTime)
-    // console.log(selectedDay)
+
     try {
       await axios.post(`${apiUrl}api/users/planner`, {
         id: parsedId,
@@ -131,10 +128,6 @@ const FoodPlannerScreen = ({ navigation }) => {
 
     const plannerId = selectedPlanner.id;
     const recipeId = selectedPlanner.recipes[recipeIndex].id;
-
-    // console.log('UserId:', parsedId);
-    // console.log('PlannerId:', plannerId);
-    // console.log('RecipeId:', recipeId);
 
     try {
       await axios.delete(`${apiUrl}api/users/planner/${parsedId}`, {
