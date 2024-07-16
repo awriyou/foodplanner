@@ -17,8 +17,11 @@ import ListPlanner from '../components/Plan/ListPlanner';
 import styles from './foodplanner.style';
 import { COLORS, SIZES } from '../constant/styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from 'axios';
+import useFetch from '../hook/useFetch';
 
 const FoodPlannerScreen = ({ navigation }) => {
+  const {apiUrl} = useFetch()
   const [selectedDay, setSelectedDay] = useState('');
   const [userData, setUserData] = useState(null);
   const [userLogin, setUserLogin] = useState(false);
@@ -27,40 +30,14 @@ const FoodPlannerScreen = ({ navigation }) => {
   const [timeVisible, setTimeVisible] = useState(false);
   const [plannerData, setPlannerData] = useState([]);
   const [time, setTime] = useState('');
-
-  const data = [
-    {
-      name: 'Nasi Goreng Kemangi',
-      imageUrl:
-        'https://images.unsplash.com/photo-1541832676-9b763b0239ab?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    },
-    {
-      name: 'Nasi Goreng Kemangi',
-      imageUrl:
-        'https://images.unsplash.com/photo-1541832676-9b763b0239ab?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    },
-    {
-      name: 'Nasi Goreng Kemangi',
-      imageUrl:
-        'https://images.unsplash.com/photo-1541832676-9b763b0239ab?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    },
-    {
-      name: 'Nasi Goreng Kemangi',
-      imageUrl:
-        'https://images.unsplash.com/photo-1541832676-9b763b0239ab?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    },
-    {
-      name: 'Nasi Goreng Kemangi',
-      imageUrl:
-        'https://images.unsplash.com/photo-1541832676-9b763b0239ab?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    },
-    // other recipes...
-  ];
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]); 
+  
   const dataTime = ['Breakfast', 'Lunch', 'Dinner'];
 
   useEffect(() => {
     checkExistingUser();
     fetchPlannerData();
+    fetchFavoriteRecipes();
   }, []);
 
   async function checkExistingUser() {
@@ -82,12 +59,27 @@ const FoodPlannerScreen = ({ navigation }) => {
     }
   }
 
-  async function fetchPlannerData() {
+  async function fetchFavoriteRecipes() {
+    const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
+    const parsedId = JSON.parse(userId);
     try {
-      const data = await AsyncStorage.getItem('plannerData');
-      if (data) {
-        setPlannerData(JSON.parse(data));
-      }
+      const response = await axios.get(
+        `${apiUrl}api/users/favorite/${parsedId}`
+      );
+      setFavoriteRecipes(response.data);
+    } catch (error) {
+      console.log('Error fetching favorite recipes: ', error);
+    }
+  }
+
+  async function fetchPlannerData() {
+    const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
+    const parsedId = JSON.parse(userId);
+    try {
+      const response = await axios.get(`${apiUrl}api/users/planner/${parsedId}`);
+      console.log(response.data[0].date)
+      setPlannerData(response.data);
+      
     } catch (error) {
       console.log('Error fetching planner data: ', error);
     }
@@ -97,47 +89,39 @@ const FoodPlannerScreen = ({ navigation }) => {
     setModalVisibility(false);
   };
 
-  const saveRecipeToPlanner = async (selectedRecipe, selectedTime) => {
-    const newPlannerData = [...plannerData];
-    const existingEntryIndex = newPlannerData.findIndex(
-      (item) => item.date === selectedDay
-    );
-
-    if (existingEntryIndex !== -1) {
-      newPlannerData[existingEntryIndex].recipeData.push({
-        ...selectedRecipe,
-        time: selectedTime,
-      });
-    } else {
-      newPlannerData.push({
-        date: selectedDay,
-        recipeData: [
-          {
-            ...selectedRecipe,
-            time: selectedTime,
-          },
-        ],
-      });
-    }
-
-    setPlannerData(newPlannerData);
-    await AsyncStorage.setItem('plannerData', JSON.stringify(newPlannerData));
-  };
+const saveRecipeToPlanner = async (selectedRecipe, selectedTime) => {
+  const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
+  const recipeId = selectedRecipe.id; // Asumsikan resep memiliki ID
+  try {
+    await axios.post('URL_API/addPlanner', {
+      id: userId,
+      date: selectedDay,
+      time: selectedTime,
+      recipeId: recipeId,
+    });
+    fetchPlannerData(); // Memperbarui data planner setelah menyimpan
+  } catch (error) {
+    console.log('Error adding recipe to planner: ', error);
+  }
+};
 
   const handleDeleteRecipe = async (day, recipeIndex) => {
-    const newPlannerData = [...plannerData];
-    const dayIndex = newPlannerData.findIndex((item) => item.date === day);
-
-    if (dayIndex !== -1) {
-      newPlannerData[dayIndex].recipeData.splice(recipeIndex, 1);
-
-      if (newPlannerData[dayIndex].recipeData.length === 0) {
-        newPlannerData.splice(dayIndex, 1);
-      }
+    const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
+    const plannerId = plannerData.find((item) => item.date === day)._id; // Asumsikan planner memiliki ID
+    const recipeId = plannerData.find((item) => item.date === day).recipeData[
+      recipeIndex
+    ].id; // Asumsikan resep memiliki ID
+    try {
+      await axios.delete(`URL_API/deletePlanner/${userId}`, {
+        data: {
+          plannerId: plannerId,
+          recipeId: recipeId,
+        },
+      });
+      fetchPlannerData(); // Memperbarui data planner setelah menghapus
+    } catch (error) {
+      console.log('Error deleting recipe from planner: ', error);
     }
-
-    setPlannerData(newPlannerData);
-    await AsyncStorage.setItem('plannerData', JSON.stringify(newPlannerData));
   };
 
   return (
@@ -164,8 +148,14 @@ const FoodPlannerScreen = ({ navigation }) => {
                 <View style={styles.likedRecipeWrapper}>
                   <Text style={styles.titleModal}>Your Liked Recipe</Text>
                   <FlatList
-                    data={data}
-                    style={{ height: 305, marginBottom: 60, backgroundColor: COLORS.gray2, paddingVertical: 5, borderRadius: 10,}}
+                    data={favoriteRecipes}
+                    style={{
+                      height: 305,
+                      marginBottom: 60,
+                      backgroundColor: COLORS.gray2,
+                      paddingVertical: 5,
+                      borderRadius: 10,
+                    }}
                     renderItem={({ item, index }) => (
                       <TouchableOpacity
                         onFocus={() => setListFocus(index)}
@@ -178,7 +168,7 @@ const FoodPlannerScreen = ({ navigation }) => {
                         onPress={() => setListFocus(index)} // Set focus index
                       >
                         <Image
-                          source={{ uri: item.imageUrl }}
+                          source={{ uri: item.recipe_img }}
                           style={styles.imageList}
                         />
                         <Text numberOfLines={1} style={styles.titleList}>
@@ -213,7 +203,7 @@ const FoodPlannerScreen = ({ navigation }) => {
                   {timeVisible && (
                     <FlatList
                       data={dataTime}
-                      style={{ width: '37%'}}
+                      style={{ width: '37%' }}
                       renderItem={({ item, index }) => (
                         <TouchableOpacity
                           style={styles.timeListBtn}
@@ -243,6 +233,13 @@ const FoodPlannerScreen = ({ navigation }) => {
           onDayPress={(day) => {
             setSelectedDay(day.dateString);
           }}
+          markedDates={{
+            [selectedDay]: {
+              selected: true,
+              marked: true,
+              selectedColor: COLORS.secondary,
+            },
+          }}
           style={{ width: SIZES.width - 70 }}
         />
       </View>
@@ -259,23 +256,3 @@ const FoodPlannerScreen = ({ navigation }) => {
 
 export default FoodPlannerScreen;
 
-{
-  /* <Image
-          source={require('../assets/image/plannerun.png')}
-          style={styles.imageBg}
-        />
-        <View style={styles.calendarWrapper}>
-          <Calendar
-            onDayPress={(day) => {
-              setSelectedDay(day.dateString);
-              setModalVisibility(true);
-            }}
-            markedDates={{
-              [selectedDay]: {
-                selected: true,
-                selectedColor: COLORS.primary,
-              },
-            }}
-          />
-        </View> */
-}

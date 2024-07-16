@@ -1,89 +1,14 @@
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SHADOWS, SIZES } from '../../constant/styles';
-import {Ionicons} from '@expo/vector-icons'
-
-// const ListPlanner = ({ day, navigation, setModalVisibility }) => {
-//   const data = [
-//     {
-//       date: '2024-07-04',
-//       recipeData: [
-//         {
-//           name: 'Nasi Goreng Kemangi',
-//           imageUrl:
-//             'https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-//           difficult: 'Easy',
-//           ingredients: ['chicken fillet', 'sugar', 'chicken', 'salt', 'sasa'],
-//           steps: ['Step 1', 'Step 2', 'Step 3'],
-//           time: 'Breakfast',
-//         },
-//         {
-//           name: 'Ayam Bakar Madu',
-//           imageUrl:
-//             'https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-//           difficult: 'Easy',
-//           ingredients: ['chicken fillet', 'sugar', 'chicken', 'salt', 'sasa'],
-//           steps: ['Step 1', 'Step 2', 'Step 3'],
-//           time: 'Lunch',
-//         },
-//       ],
-//     },
-//     {
-//       date: '2024-07-05',
-//       recipeData: [
-//         {
-//           name: 'Mie Rebus',
-//           imageUrl:
-//             'https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-//           difficult: 'Easy',
-//           ingredients: ['mie', 'egg', 'salt', 'oil'],
-//           steps: ['Step 1', 'Step 2', 'Step 3'],
-//           time: 'Lunch',
-//         },
-//       ],
-//     },
-//   ];
-
-//   // Filter data based on selected day
-//   //get
-//   const filteredData = data.filter((item) => item.date === day);
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Recipe for {day}</Text>
-//       <TouchableOpacity
-//         style={styles.addBtn}
-//         onPress={() => setModalVisibility(true)}
-//       >
-//         {/* <Ionicons name="add" size={SIZES.xLarge + 5} color={COLORS.primary} /> */}
-//         <Text style={styles.addText}>Add Recipe</Text>
-//       </TouchableOpacity>
-//       <FlatList
-//         data={filteredData.length > 0 ? filteredData[0].recipeData : []}
-//         keyExtractor={(item, index) => index.toString()}
-//         renderItem={({ item }) => (
-//           <TouchableOpacity
-//             style={styles.recipeItem}
-//             onPress={() => navigation.navigate('DetailRecipe', { item })}
-//           >
-//             <Image source={{ uri: item.imageUrl }} style={styles.image} />
-//             <View style={styles.contentWrapper}>
-//               <View style={styles.textWrapper}>
-//                 <Text style={styles.recipeTime}>{item.time}</Text>
-//                 <Text style={styles.recipeName}>{item.name}</Text>
-//               </View>
-//               <TouchableOpacity>
-//                 <Ionicons name="trash" size={24} color={COLORS.secondary} />
-//               </TouchableOpacity>
-//             </View>
-//             <Text style={styles.difficulty}>{item.difficult}</Text>
-//           </TouchableOpacity>
-//         )}
-//         ListEmptyComponent={<Text>No recipes available for this day.</Text>}
-//       />
-//     </View>
-//   );
-// };
 
 const ListPlanner = ({
   day,
@@ -93,10 +18,10 @@ const ListPlanner = ({
   handleDeleteRecipe,
 }) => {
   // Filter data based on selected day
-  const filteredData = plannerData.filter((item) => item.date === day);
+  const filteredData = plannerData.filter((item) => item.date.substring(0, 10) === day);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Recipe for {day}</Text>
+      <Text style={styles.title}>Recipes for {day}</Text>
       <TouchableOpacity
         style={styles.addBtn}
         onPress={() => setModalVisibility(true)}
@@ -104,24 +29,27 @@ const ListPlanner = ({
         <Text style={styles.addText}>Add Recipe</Text>
       </TouchableOpacity>
       <FlatList
-        data={filteredData.length > 0 ? filteredData[0].recipeData : []}
+        data={filteredData.length > 0 ? filteredData[0].recipes : []}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
           <TouchableOpacity
             style={styles.recipeItem}
-            onPress={() => navigation.navigate('DetailRecipe', item.recipeData )}
+            onPress={() => navigation.navigate('DetailRecipe', { item })}
           >
-            <Image source={{ uri: item.imageUrl }} style={styles.image} />
+            <Image
+              source={{ uri: item.recipe_img }}
+              style={styles.image}
+            />
             <View style={styles.contentWrapper}>
               <View style={styles.textWrapper}>
-                <Text style={styles.recipeTime}>{item.time}</Text>
+                <Text style={styles.recipeTime}>{plannerData[1].time}</Text>
                 <Text style={styles.recipeName}>{item.name}</Text>
               </View>
               <TouchableOpacity onPress={() => handleDeleteRecipe(day, index)}>
                 <Ionicons name="trash" size={24} color={COLORS.secondary} />
               </TouchableOpacity>
             </View>
-            <Text style={styles.recipeDate}>{item.date}</Text>
+            <Text style={styles.recipeDate}>{day}</Text>
           </TouchableOpacity>
         )}
         ListEmptyComponent={() => (
@@ -133,9 +61,6 @@ const ListPlanner = ({
     </View>
   );
 };
-
-
-export default ListPlanner;
 
 const styles = StyleSheet.create({
   container: {
@@ -207,3 +132,5 @@ const styles = StyleSheet.create({
     color: COLORS.secondary,
   },
 });
+
+export default ListPlanner;
