@@ -82,7 +82,7 @@ const FoodPlannerScreen = ({ navigation }) => {
       const response = await axios.get(
         `${apiUrl}api/users/planner/${parsedId}`
       );
-      console.log(response.data[0].date);
+      // console.log(response.data[0].date);
       setPlannerData(response.data);
     } catch (error) {
       console.log('Error fetching planner data: ', error);
@@ -95,15 +95,22 @@ const FoodPlannerScreen = ({ navigation }) => {
 
   const saveRecipeToPlanner = async (selectedRecipe, selectedTime) => {
     const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
-    const recipeId = selectedRecipe.id; // Asumsikan resep memiliki ID
+    const parsedId = JSON.parse(userId);
+    const recipeId = selectedRecipe._id; // Asumsikan resep memiliki ID
+    // console.log(parsedId)
+    // console.log(selectedRecipe._id)
+    // console.log(selectedTime)
+    // console.log(selectedDay)
     try {
-      await axios.post('URL_API/addPlanner', {
-        id: userId,
+      await axios.post(`${apiUrl}api/users/planner`, {
+        id: parsedId,
         date: selectedDay,
         time: selectedTime,
         recipeId: recipeId,
       });
       fetchPlannerData(); // Memperbarui data planner setelah menyimpan
+      setTime('');
+      setListFocus(null);
     } catch (error) {
       console.log('Error adding recipe to planner: ', error);
     }
@@ -111,18 +118,32 @@ const FoodPlannerScreen = ({ navigation }) => {
 
   const handleDeleteRecipe = async (day, recipeIndex) => {
     const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
-    const plannerId = plannerData.find((item) => item.date === day)._id; // Asumsikan planner memiliki ID
-    const recipeId = plannerData.find((item) => item.date === day).recipeData[
-      recipeIndex
-    ].id; // Asumsikan resep memiliki ID
+    const parsedId = JSON.parse(userId);
+
+    const selectedPlanner = plannerData.find(
+      (item) => new Date(item.date).toISOString().split('T')[0] === day
+    );
+    // console.log(selectedPlanner)
+    if (!selectedPlanner) {
+      console.log('Planner not found for the selected day.');
+      return;
+    }
+
+    const plannerId = selectedPlanner.id;
+    const recipeId = selectedPlanner.recipes[recipeIndex].id;
+
+    // console.log('UserId:', parsedId);
+    // console.log('PlannerId:', plannerId);
+    // console.log('RecipeId:', recipeId);
+
     try {
-      await axios.delete(`URL_API/deletePlanner/${userId}`, {
+      await axios.delete(`${apiUrl}api/users/planner/${parsedId}`, {
         data: {
           plannerId: plannerId,
           recipeId: recipeId,
         },
       });
-      fetchPlannerData(); // Memperbarui data planner setelah menghapus
+      fetchPlannerData(); 
     } catch (error) {
       console.log('Error deleting recipe from planner: ', error);
     }
@@ -196,7 +217,7 @@ const FoodPlannerScreen = ({ navigation }) => {
                     <TouchableOpacity
                       style={styles.addBtn}
                       onPress={() => {
-                        saveRecipeToPlanner(data[listFocus], dataTime[time]);
+                        saveRecipeToPlanner(favoriteRecipes[listFocus], time);
                         setModalVisibility(!modalVisibility);
                       }}
                     >

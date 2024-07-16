@@ -23,7 +23,7 @@ const DetailRecipeScreen = ({ navigation }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [toggle, setToggle] = useState(true);
   const route = useRoute();
-  const { item } = route.params;
+  const item = route.params.recipe || route.params.item;
 
   async function favoriteOrNot() {
     const id = await AsyncStorage.getItem('id');
