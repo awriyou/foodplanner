@@ -5,7 +5,7 @@ import axios from 'axios';
 const useFetch = () => {
   // const apiUrl = `http://192.168.1.8:3000/`;
   // const apiUrl = `http://192.168.18.5:3000/`;
-  const apiUrl = `http://192.168.18.5:3000/`;
+  const apiUrl = `http://192.168.137.245:3000/`;
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);

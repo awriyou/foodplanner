@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   titleList: {
     fontFamily: 'semiBold',
-    fontSize: SIZES.small,
+    fontSize: SIZES.small-2,
     color: COLORS.primary,
   },
   footer: {

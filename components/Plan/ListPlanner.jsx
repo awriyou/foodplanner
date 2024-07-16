@@ -18,7 +18,10 @@ const ListPlanner = ({
   handleDeleteRecipe,
 }) => {
   // Filter data based on selected day
-  const filteredData = plannerData.filter((item) => item.date.substring(0, 10) === day);
+  const filteredData = plannerData.filter(
+    (item) => new Date(item.date).toISOString().split('T')[0] === day
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Recipes for {day}</Text>
@@ -29,28 +32,44 @@ const ListPlanner = ({
         <Text style={styles.addText}>Add Recipe</Text>
       </TouchableOpacity>
       <FlatList
-        data={filteredData.length > 0 ? filteredData[0].recipes : []}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item, index }) => (
-          <TouchableOpacity
-            style={styles.recipeItem}
-            onPress={() => navigation.navigate('DetailRecipe', { item })}
-          >
-            <Image
-              source={{ uri: item.recipe_img }}
-              style={styles.image}
+        data={filteredData}
+        style={{ height: 250 }}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View>
+            <Text style={styles.timeText}>{item.time}</Text>
+            <FlatList
+              data={item.recipes}
+              keyExtractor={(recipe) => recipe.id}
+              renderItem={({ item: recipe, index }) => (
+                <TouchableOpacity
+                  style={styles.recipeItem}
+                  onPress={() =>
+                    navigation.navigate('DetailRecipe', { recipe })
+                  }
+                >
+                  <Image
+                    source={{ uri: recipe.recipe_img }}
+                    style={styles.image}
+                  />
+                  <View style={styles.contentWrapper}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.recipeName}>{recipe.name}</Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => handleDeleteRecipe(day, index)}
+                    >
+                      <Ionicons
+                        name="trash"
+                        size={24}
+                        color={COLORS.secondary}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </TouchableOpacity>
+              )}
             />
-            <View style={styles.contentWrapper}>
-              <View style={styles.textWrapper}>
-                <Text style={styles.recipeTime}>{plannerData[1].time}</Text>
-                <Text style={styles.recipeName}>{item.name}</Text>
-              </View>
-              <TouchableOpacity onPress={() => handleDeleteRecipe(day, index)}>
-                <Ionicons name="trash" size={24} color={COLORS.secondary} />
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.recipeDate}>{day}</Text>
-          </TouchableOpacity>
+          </View>
         )}
         ListEmptyComponent={() => (
           <Text style={styles.emptyText}>
@@ -120,14 +139,20 @@ const styles = StyleSheet.create({
     fontFamily: 'regular',
     color: COLORS.primary,
   },
-  recipeTime: {
-    fontSize: 14,
-    fontFamily: 'regular',
-    color: COLORS.secondary,
-  },
   emptyText: {
     textAlign: 'center',
     fontSize: 16,
+    fontFamily: 'regular',
+    color: COLORS.secondary,
+  },
+  timeText: {
+    fontSize: 16,
+    fontFamily: 'semiBold',
+    color: COLORS.primary,
+    marginVertical: 5,
+  },
+  recipeDate: {
+    fontSize: 14,
     fontFamily: 'regular',
     color: COLORS.secondary,
   },

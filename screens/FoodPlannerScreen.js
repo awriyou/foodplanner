@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -19,9 +19,10 @@ import { COLORS, SIZES } from '../constant/styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import useFetch from '../hook/useFetch';
+import { useFocusEffect } from '@react-navigation/native';
 
 const FoodPlannerScreen = ({ navigation }) => {
-  const {apiUrl} = useFetch()
+  const { apiUrl } = useFetch();
   const [selectedDay, setSelectedDay] = useState('');
   const [userData, setUserData] = useState(null);
   const [userLogin, setUserLogin] = useState(false);
@@ -30,15 +31,17 @@ const FoodPlannerScreen = ({ navigation }) => {
   const [timeVisible, setTimeVisible] = useState(false);
   const [plannerData, setPlannerData] = useState([]);
   const [time, setTime] = useState('');
-  const [favoriteRecipes, setFavoriteRecipes] = useState([]); 
-  
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+
   const dataTime = ['Breakfast', 'Lunch', 'Dinner'];
 
-  useEffect(() => {
-    checkExistingUser();
-    fetchPlannerData();
-    fetchFavoriteRecipes();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      checkExistingUser();
+      fetchPlannerData();
+      fetchFavoriteRecipes();
+    }, [])
+  );
 
   async function checkExistingUser() {
     const id = await AsyncStorage.getItem('id');
@@ -76,10 +79,11 @@ const FoodPlannerScreen = ({ navigation }) => {
     const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
     const parsedId = JSON.parse(userId);
     try {
-      const response = await axios.get(`${apiUrl}api/users/planner/${parsedId}`);
-      console.log(response.data[0].date)
+      const response = await axios.get(
+        `${apiUrl}api/users/planner/${parsedId}`
+      );
+      console.log(response.data[0].date);
       setPlannerData(response.data);
-      
     } catch (error) {
       console.log('Error fetching planner data: ', error);
     }
@@ -89,21 +93,21 @@ const FoodPlannerScreen = ({ navigation }) => {
     setModalVisibility(false);
   };
 
-const saveRecipeToPlanner = async (selectedRecipe, selectedTime) => {
-  const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
-  const recipeId = selectedRecipe.id; // Asumsikan resep memiliki ID
-  try {
-    await axios.post('URL_API/addPlanner', {
-      id: userId,
-      date: selectedDay,
-      time: selectedTime,
-      recipeId: recipeId,
-    });
-    fetchPlannerData(); // Memperbarui data planner setelah menyimpan
-  } catch (error) {
-    console.log('Error adding recipe to planner: ', error);
-  }
-};
+  const saveRecipeToPlanner = async (selectedRecipe, selectedTime) => {
+    const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
+    const recipeId = selectedRecipe.id; // Asumsikan resep memiliki ID
+    try {
+      await axios.post('URL_API/addPlanner', {
+        id: userId,
+        date: selectedDay,
+        time: selectedTime,
+        recipeId: recipeId,
+      });
+      fetchPlannerData(); // Memperbarui data planner setelah menyimpan
+    } catch (error) {
+      console.log('Error adding recipe to planner: ', error);
+    }
+  };
 
   const handleDeleteRecipe = async (day, recipeIndex) => {
     const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
@@ -255,4 +259,3 @@ const saveRecipeToPlanner = async (selectedRecipe, selectedTime) => {
 };
 
 export default FoodPlannerScreen;
-
