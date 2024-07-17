@@ -22,6 +22,7 @@ const DetailRecipeScreen = ({ navigation }) => {
   const [userLogin, setUserLogin] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [toggle, setToggle] = useState(true);
+  const [favoriteCount, setFavoriteCount] = useState(0); // Tambahkan state ini
   const route = useRoute();
   const item = route.params.recipe || route.params.item;
 
@@ -31,56 +32,66 @@ const DetailRecipeScreen = ({ navigation }) => {
     const useId = `user${JSON.parse(id)}`;
     const currentUser = await AsyncStorage.getItem(useId);
 
-    if (currentUser !== null){
+    if (currentUser !== null) {
       setUserLogin(true);
     }
-      try {
-        const response = await axios.get(
-          `${apiUrl}api/users/favorite/${parsedId}`
+    try {
+      const response = await axios.get(
+        `${apiUrl}api/users/favorite/${parsedId}`
+      );
+      // Check if the response contains any favorite recipes
+      if (response.data.length > 0) {
+        const favoriteRecipe = response.data.find(
+          (favorite) => favorite._id === item._id
         );
-        // Check if the response contains any favorite recipes
-        if (response.data.length > 0) {
-          const favoriteRecipe = response.data.find(
-            (favorite) => favorite._id === item._id
-          );
-          if (favoriteRecipe) {
-            setIsLiked(true);
-          }
+        if (favoriteRecipe) {
+          setIsLiked(true);
         }
-      } catch (error) {
-        console.error('Error fetching favorite recipes:', error);
       }
+    } catch (error) {
+      console.error('Error fetching favorite recipes:', error);
+    }
   }
 
-  // Function to add recipe to favorites
+  async function fetchFavoriteCount() {
+    try {
+      const response = await axios.get(
+        `${apiUrl}api/users/recipe/favoriteCount/${item._id}`
+      );
+      setFavoriteCount(response.data.count);
+    } catch (error) {
+      console.error('Error fetching favorite count:', error);
+    }
+  }
+
   async function addToFavorites() {
     const id = await AsyncStorage.getItem('id');
     const parsedId = JSON.parse(id);
     try {
-      const response = await axios.post(
-        `${apiUrl}api/users/favorite`,
-        { id:parsedId, recipeId: item._id }
-      );
+      const response = await axios.post(`${apiUrl}api/users/favorite`, {
+        id: parsedId,
+        recipeId: item._id,
+      });
       if (response.status === 200) {
-        setIsLiked(true); // Update favorite recipe id
+        setIsLiked(true);
+        fetchFavoriteCount(); // Update favorite count
       }
     } catch (error) {
       console.error('Error adding to favorites:', error);
     }
   }
 
-  // Function to remove recipe from favorites
   async function removeFromFavorites() {
     const id = await AsyncStorage.getItem('id');
     const parsedId = JSON.parse(id);
     try {
-
       const response = await axios.delete(
         `${apiUrl}api/users/favorite/${parsedId}`,
         { data: { recipeId: item._id } }
       );
       if (response.status === 200) {
-        setIsLiked(false); // Clear favorite recipe id
+        setIsLiked(false);
+        fetchFavoriteCount(); // Update favorite count
       }
     } catch (error) {
       console.error('Error removing from favorites:', error);
@@ -89,6 +100,7 @@ const DetailRecipeScreen = ({ navigation }) => {
 
   useEffect(() => {
     favoriteOrNot();
+    fetchFavoriteCount(); // Fetch favorite count when component mounts
   }, []);
 
   const formatText = (text) => {
@@ -99,13 +111,12 @@ const DetailRecipeScreen = ({ navigation }) => {
     }
     return text;
   };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <BackButton />
-      {/* <ScrollView> */}
       <View style={styles.container}>
         <Image source={{ uri: item.recipe_img }} style={styles.image} />
-
         <View style={styles.containerInfoWrapper}>
           <View style={styles.infoWrapper}>
             <View style={styles.titleIconWrapper}>
@@ -142,7 +153,6 @@ const DetailRecipeScreen = ({ navigation }) => {
                 )}
               </View>
             </View>
-
             <View style={styles.detailWrapper}>
               <View style={styles.detail}>
                 <Ionicons
@@ -164,7 +174,9 @@ const DetailRecipeScreen = ({ navigation }) => {
               </View>
             </View>
             <View style={styles.likedBy}>
-              <Text style={styles.likedByText}>Liked By 10 people</Text>
+              <Text style={styles.likedByText}>
+                Liked By {favoriteCount} people
+              </Text>
             </View>
           </View>
           <View style={styles.descWrapper}>
@@ -196,7 +208,6 @@ const DetailRecipeScreen = ({ navigation }) => {
                 <Text style={styles.toggleText}> Steps </Text>
               </TouchableOpacity>
             </View>
-
             <View style={styles.list}>
               <FlatList
                 data={toggle ? item.ingredients : item.steps}
@@ -240,7 +251,6 @@ const DetailRecipeScreen = ({ navigation }) => {
           </View>
         </View>
       </View>
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };
