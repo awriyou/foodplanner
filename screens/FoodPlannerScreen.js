@@ -24,7 +24,6 @@ import { useFocusEffect } from '@react-navigation/native';
 const FoodPlannerScreen = ({ navigation }) => {
   const { apiUrl } = useFetch();
   const [selectedDay, setSelectedDay] = useState('');
-  const [userData, setUserData] = useState(null);
   const [userLogin, setUserLogin] = useState(false);
   const [modalVisibility, setModalVisibility] = useState(false);
   const [listFocus, setListFocus] = useState(null);
@@ -32,16 +31,24 @@ const FoodPlannerScreen = ({ navigation }) => {
   const [plannerData, setPlannerData] = useState([]);
   const [time, setTime] = useState('');
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
 
   const dataTime = ['Breakfast', 'Lunch', 'Dinner'];
 
+  useEffect(() => {
+    checkExistingUser();
+    setSelectedDay(new Date().toISOString().split('T')[0]);
+  }, []);
   useFocusEffect(
     useCallback(() => {
-      checkExistingUser();
       fetchPlannerData();
       fetchFavoriteRecipes();
     }, [])
   );
+
+  useEffect(() => {
+    setIsSaveEnabled(time && listFocus !== null);
+  }, [time, listFocus]);
 
   async function checkExistingUser() {
     const id = await AsyncStorage.getItem('id');
@@ -51,8 +58,6 @@ const FoodPlannerScreen = ({ navigation }) => {
       const currentUser = await AsyncStorage.getItem(useId);
 
       if (currentUser !== null) {
-        const parsedData = JSON.parse(currentUser);
-        setUserData(parsedData);
         setUserLogin(true);
       } else {
         navigation.navigate('Auth');
@@ -82,7 +87,6 @@ const FoodPlannerScreen = ({ navigation }) => {
       const response = await axios.get(
         `${apiUrl}api/users/planner/${parsedId}`
       );
-      // console.log(response.data[0].date);
       setPlannerData(response.data);
     } catch (error) {
       console.log('Error fetching planner data: ', error);
@@ -120,7 +124,6 @@ const FoodPlannerScreen = ({ navigation }) => {
     const selectedPlanner = plannerData.find(
       (item) => new Date(item.date).toISOString().split('T')[0] === day
     );
-    // console.log(selectedPlanner)
     if (!selectedPlanner) {
       console.log('Planner not found for the selected day.');
       return;
@@ -136,7 +139,7 @@ const FoodPlannerScreen = ({ navigation }) => {
           recipeId: recipeId,
         },
       });
-      fetchPlannerData(); 
+      fetchPlannerData();
     } catch (error) {
       console.log('Error deleting recipe from planner: ', error);
     }
@@ -207,16 +210,28 @@ const FoodPlannerScreen = ({ navigation }) => {
                       </Text>
                       <Ionicons name="list" size={20} />
                     </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.addBtn}
-                      onPress={() => {
-                        saveRecipeToPlanner(favoriteRecipes[listFocus], time);
-                        setModalVisibility(!modalVisibility);
-                      }}
-                    >
-                      <Ionicons name="add" color={COLORS.wht} size={24} />
-                      <Text style={styles.addText}>Save</Text>
-                    </TouchableOpacity>
+                    {isSaveEnabled ? (
+                      <TouchableOpacity
+                        style={styles.addBtn}
+                        onPress={() => {
+                          saveRecipeToPlanner(favoriteRecipes[listFocus], time);
+                          setModalVisibility(!modalVisibility);
+                        }}
+                      >
+                        <Ionicons name="add" color={COLORS.wht} size={24} />
+                        <Text style={styles.addText}>Save</Text>
+                      </TouchableOpacity>
+                    ) : (
+                      <View
+                        style={[
+                          styles.addBtn,
+                          { backgroundColor: COLORS.gray3 },
+                        ]}
+                      >
+                        <Ionicons name="add" color={COLORS.wht} size={24} />
+                        <Text style={styles.addText}>Save</Text>
+                      </View>
+                    )}
                   </View>
                   {timeVisible && (
                     <FlatList
