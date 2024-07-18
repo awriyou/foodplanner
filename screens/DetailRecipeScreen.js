@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   ScrollView,
@@ -19,6 +20,8 @@ import axios from 'axios';
 
 const DetailRecipeScreen = ({ navigation }) => {
   const { apiUrl } = useFetch();
+
+  const [loader, setLoader] = useState(false);
   const [userLogin, setUserLogin] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [toggle, setToggle] = useState(true);
@@ -27,6 +30,7 @@ const DetailRecipeScreen = ({ navigation }) => {
   const item = route.params.recipe || route.params.item;
 
   async function favoriteOrNot() {
+    setLoader(true);
     const id = await AsyncStorage.getItem('id');
     const parsedId = JSON.parse(id);
     const useId = `user${JSON.parse(id)}`;
@@ -49,9 +53,10 @@ const DetailRecipeScreen = ({ navigation }) => {
         }
       } catch (error) {
         console.error('Error fetching favorite recipes:', error);
+      } finally {
+        setLoader(false);
       }
     }
-    
   }
 
   async function fetchFavoriteCount() {
@@ -134,21 +139,25 @@ const DetailRecipeScreen = ({ navigation }) => {
                   />
                 </TouchableOpacity>
                 {userLogin ? (
-                  <TouchableOpacity
-                    onPress={() => {
-                      if (isLiked) {
-                        removeFromFavorites();
-                      } else {
-                        addToFavorites();
-                      }
-                    }}
-                  >
-                    <Ionicons
-                      name={isLiked ? 'heart' : 'heart-outline'}
-                      size={24}
-                      color={COLORS.secondary}
-                    />
-                  </TouchableOpacity>
+                  loader === false ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        if (isLiked) {
+                          removeFromFavorites();
+                        } else {
+                          addToFavorites();
+                        }
+                      }}
+                    >
+                      <Ionicons
+                        name={isLiked ? 'heart' : 'heart-outline'}
+                        size={24}
+                        color={COLORS.secondary}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <ActivityIndicator color="red"/>
+                  )
                 ) : (
                   <View></View>
                 )}

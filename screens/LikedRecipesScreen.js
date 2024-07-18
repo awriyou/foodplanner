@@ -18,12 +18,13 @@ import { useFocusEffect } from '@react-navigation/native';
 const LikedRecipesScreen = ({ navigation }) => {
   const { apiUrl } = useFetch();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [userData, setUserData] = useState(null);
   const [likedRecipes, setLikedRecipes] = useState([]);
   const [userLogin, setUserLogin] = useState(false);
 
   async function checkExistingUser() {
+    setLoader(true);
     const id = await AsyncStorage.getItem('id');
     const useId = `user${JSON.parse(id)}`;
 
@@ -38,13 +39,15 @@ const LikedRecipesScreen = ({ navigation }) => {
       }
     } catch (error) {
       console.log('Error retrieving the data: ', error);
+    } finally {
+      setLoader(false);
     }
   }
 
   async function getFavoriteData() {
     const id = await AsyncStorage.getItem('id');
     const parsedId = JSON.parse(id);
-    setIsLoading(true);
+    setLoader(true);
     if (parsedId !== null) {
       try {
         const response = await axios.get(
@@ -55,7 +58,7 @@ const LikedRecipesScreen = ({ navigation }) => {
       } catch (error) {
         console.log('Error : ', error);
       } finally {
-        setIsLoading(false);
+        setLoader(false);
       }
     }
   }
@@ -69,13 +72,19 @@ const LikedRecipesScreen = ({ navigation }) => {
 
   return (
     <View style={styles.containerList}>
-      {!userLogin ? <MustLogin navigation={navigation} /> : <View></View>}
-      <FlatList
-        data={likedRecipes}
-        numColumns={2}
-        // contentContainerStyle={{ columnGap: SIZES.medium }}
-        renderItem={({ item }) => <RecipeCardView item={item} />}
-      />
+      {loader === false ? (
+        <>
+          {!userLogin ? <MustLogin navigation={navigation} /> : <View></View>}
+          <FlatList
+            data={likedRecipes}
+            numColumns={2}
+            // contentContainerStyle={{ columnGap: SIZES.medium }}
+            renderItem={({ item }) => <RecipeCardView item={item} />}
+          />
+        </>
+      ) : (
+        <ActivityIndicator />
+      )}
     </View>
   );
 };

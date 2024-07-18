@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ProfileHead from '../components/Profile/ProfileHead';
 import Menus from '../components/Profile/Menus';
@@ -9,6 +9,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const ProfileScreen = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
   const [userLogin, setUserLogin] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -16,6 +17,7 @@ const ProfileScreen = ({ navigation }) => {
     }, [])
   );
   async function checkExistingUser() {
+    setLoader(true);
     const id = await AsyncStorage.getItem('id');
     const useId = `user${JSON.parse(id)}`;
 
@@ -29,18 +31,26 @@ const ProfileScreen = ({ navigation }) => {
       }
     } catch (error) {
       console.log('Error retrieving the data: ', error);
+    } finally {
+      setLoader(false);
     }
   }
 
   return (
     <SafeAreaView>
-      {userLogin === false ? (
-        <MustLogin navigation={navigation} />
+      {loader === false ? (
+        <>
+          {userLogin === false ? (
+            <MustLogin navigation={navigation} />
+          ) : (
+            <View></View>
+          )}
+          <ProfileHead data={userData} />
+          <Menus navigation={navigation} />
+        </>
       ) : (
-        <View></View>
+        <ActivityIndicator />
       )}
-      <ProfileHead data={userData} />
-      <Menus navigation={navigation} />
     </SafeAreaView>
   );
 };

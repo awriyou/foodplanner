@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,6 +24,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const FoodPlannerScreen = ({ navigation }) => {
   const { apiUrl } = useFetch();
+  const [loader, setLoader] = useState(false);
   const [selectedDay, setSelectedDay] = useState('');
   const [userLogin, setUserLogin] = useState(false);
   const [modalVisibility, setModalVisibility] = useState(false);
@@ -51,6 +53,7 @@ const FoodPlannerScreen = ({ navigation }) => {
   }, [time, listFocus]);
 
   async function checkExistingUser() {
+    setLoader(true);
     const id = await AsyncStorage.getItem('id');
     const useId = `user${JSON.parse(id)}`;
 
@@ -62,10 +65,13 @@ const FoodPlannerScreen = ({ navigation }) => {
       }
     } catch (error) {
       console.log('Error retrieving the data: ', error);
+    } finally {
+      setLoader(false);
     }
   }
 
   async function fetchFavoriteRecipes() {
+    setLoader(true);
     const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
     const parsedId = JSON.parse(userId);
     if (parsedId !== null) {
@@ -76,11 +82,14 @@ const FoodPlannerScreen = ({ navigation }) => {
         setFavoriteRecipes(response.data);
       } catch (error) {
         console.log('Error fetching favorite recipes: ', error);
+      } finally {
+        setLoader(false);
       }
     }
   }
 
   async function fetchPlannerData() {
+    setLoader(true);
     const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
     const parsedId = JSON.parse(userId);
     if (parsedId !== null) {
@@ -91,6 +100,8 @@ const FoodPlannerScreen = ({ navigation }) => {
         setPlannerData(response.data);
       } catch (error) {
         console.log('Error fetching planner data: ', error);
+      } finally {
+        setLoader(false);
       }
     }
   }
@@ -149,8 +160,6 @@ const FoodPlannerScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {!userLogin ? <MustLogin navigation={navigation} /> : <View></View>}
-
       <Modal
         visible={modalVisibility}
         animationType="slide"
@@ -278,13 +287,23 @@ const FoodPlannerScreen = ({ navigation }) => {
           style={{ width: SIZES.width - 70 }}
         />
       </View>
-      <ListPlanner
-        day={selectedDay}
-        navigation={navigation}
-        setModalVisibility={setModalVisibility}
-        plannerData={plannerData}
-        handleDeleteRecipe={handleDeleteRecipe}
-      />
+      {loader === false ? (
+        <>
+          {!userLogin ? <MustLogin navigation={navigation} /> : <View></View>}
+
+          <View>
+            <ListPlanner
+              day={selectedDay}
+              navigation={navigation}
+              setModalVisibility={setModalVisibility}
+              plannerData={plannerData}
+              handleDeleteRecipe={handleDeleteRecipe}
+            />
+          </View>
+        </>
+      ) : (
+        <ActivityIndicator />
+      )}
     </SafeAreaView>
   );
 };
