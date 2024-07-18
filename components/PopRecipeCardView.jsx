@@ -1,47 +1,71 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES } from '../constant/styles';
 import { useNavigation } from '@react-navigation/native';
 
-const PopRecipeCardView = ({ item }) => {
+const PopRecipeCardView = ({ item, loader }) => {
   const navigation = useNavigation();
   const [optionVisible, setOptionVisible] = useState(false);
+
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('DetailRecipe', { item })}
+      onPress={() => navigation.navigate('DetailRecipe', { item: item.recipe })}
     >
       <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image source={{ uri: item.imageUrl }} style={styles.image} />
-        </View>
-        <View style={styles.desc}>
-          <View style={styles.textContainer}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.difficult}>{item.difficult}</Text>
+        {loader ? (
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" color={COLORS.primary} />
           </View>
-          <TouchableOpacity onPress={() => setOptionVisible(!optionVisible)}>
-            <Ionicons name="ellipsis-vertical" size={24} color={COLORS.wht} />
+        ) : (
+          <>
+            <View style={styles.imageContainer}>
+              <Image
+                source={{ uri: item.recipe.recipe_img }}
+                style={styles.image}
+              />
+            </View>
+            <View style={styles.desc}>
+              <View style={styles.textContainer}>
+                <Text style={styles.name} numberOfLines={1}>
+                  {item.recipe.name}
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Text style={styles.difficult}>{item.recipe.level}</Text>
+                  <Text style={styles.favoriteCount}>
+                    {item.favoriteCount} Liked this recipe
+                  </Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                onPress={() => setOptionVisible(!optionVisible)}
+              >
+                <Ionicons
+                  name="ellipsis-vertical"
+                  size={24}
+                  color={COLORS.wht}
+                />
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
+      </View>
+      {optionVisible && (
+        <View style={styles.optionWrapper}>
+          <TouchableOpacity style={styles.option}>
+            <Ionicons name="add-sharp" size={24} color={COLORS.dark} />
+            <Text>Add To Calendar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Ionicons name="heart-outline" size={24} color={COLORS.dark} />
+            <Text>Add To Favorite</Text>
           </TouchableOpacity>
         </View>
-      </View>
-      {optionVisible ? (
-        <View style={styles.optionWrapper}>
-          <View>
-            <TouchableOpacity style={styles.option1}>
-              <Ionicons name="add-sharp" size={24} color={COLORS.dark} />
-              <Text>Add To Calendar</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity style={styles.option2}>
-              <Ionicons name="heart-outline" size={24} color={COLORS.dark} />
-              <Text>Add To Favorite</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ) : (
-        <View></View>
       )}
     </TouchableOpacity>
   );
@@ -60,7 +84,6 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 165,
-    resizeMode: 'stretch',
     borderRadius: 20,
   },
   desc: {
@@ -70,17 +93,24 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
   },
-  textContainer: {},
+  textContainer: {
+    flex: 1,
+  },
   name: {
     fontFamily: 'bold',
-
     color: COLORS.wht,
   },
   difficult: {
     fontFamily: 'regular',
+    fontSize: SIZES.small,
+    color: COLORS.wht,
+  },
+  favoriteCount: {
+    fontFamily: 'bold',
     fontSize: SIZES.small,
     color: COLORS.wht,
   },
@@ -95,13 +125,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     elevation: 10,
   },
-  option1: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    marginVertical: 10,
-  },
-  option2: {
+  option: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,

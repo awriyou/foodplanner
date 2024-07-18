@@ -15,30 +15,50 @@ import { COLORS, SIZES } from '../constant/styles';
 import PopRecipe from '../components/PopRecipe';
 import BroBy from '../components/BroBy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import useFetch from '../hook/useFetch';
+import axios from 'axios';
 const HomeScreen = ({ navigation }) => {
-  const [keyCat, setKeyCat] = useState();
+  const { apiUrl } = useFetch();
+  const [loader, setLoader] = useState(false);
+  const [recipeData, setRecipeData] = useState([]);
+  const [userData, setUserData] = useState(null);
 
-    const [userData, setUserData] = useState(null);
+  useEffect(() => {
+    checkExistingUser();
+    getPopularRecipe();
+  }, []);
+  async function checkExistingUser() {
+    const id = await AsyncStorage.getItem('id');
+    const useId = `user${JSON.parse(id)}`;
 
-    useEffect(() => {
-      checkExistingUser();
-    }, []);
-    async function checkExistingUser() {
-      const id = await AsyncStorage.getItem('id');
-      const useId = `user${JSON.parse(id)}`;
+    try {
+      const currentUser = await AsyncStorage.getItem(useId);
 
-      try {
-        const currentUser = await AsyncStorage.getItem(useId);
-
-        if (currentUser !== null) {
-          const parsedData = JSON.parse(currentUser);
-          setUserData(parsedData);
-        }
-      } catch (error) {
-        console.log('Error retrieving the data: ', error);
+      if (currentUser !== null) {
+        const parsedData = JSON.parse(currentUser);
+        setUserData(parsedData);
       }
+    } catch (error) {
+      console.log('Error retrieving the data: ', error);
     }
+  }
 
+  async function getPopularRecipe() {
+    setLoader(true);
+    try {
+      const response = await axios.get(`${apiUrl}api/recipes/popular/recipes`);
+      // console.log(response.data)
+      setRecipeData(response.data);
+      
+    } catch (error) {
+      console.error('Error getting popular recipes:', error);
+    } finally {
+      setLoader(false);
+    }
+  }
+
+
+  
   const getFirstWordWithLimit = (text, limit = 8) => {
     if (!text) return '--';
     const firstWord = text.split(' ')[0];
@@ -106,7 +126,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
       </View>
 
-      <PopRecipe />
+      <PopRecipe loader={loader} recipeData={recipeData} />
       <BroBy />
     </SafeAreaView>
   );

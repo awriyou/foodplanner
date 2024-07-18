@@ -62,7 +62,7 @@ const DetailRecipeScreen = ({ navigation }) => {
   async function fetchFavoriteCount() {
     try {
       const response = await axios.get(
-        `${apiUrl}api/users/recipe/favoriteCount/${item._id}`
+        `${apiUrl}api/recipes/favoriteCount/${item._id}`
       );
       setFavoriteCount(response.data.count);
     } catch (error) {

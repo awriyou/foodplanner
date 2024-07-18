@@ -45,7 +45,7 @@ const BroBy = () => {
             scrollEnabled
             data={category}
             renderItem={({ item }) => <CategoryCardView category={item} />}
-            contentContainerStyle={{}}
+            style={{ paddingHorizontal: 10, }}
           />
         </View>
       )}
