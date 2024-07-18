@@ -1,4 +1,10 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import recipeData from '../store/data';
 import { SIZES } from '../constant/styles';
@@ -9,14 +15,13 @@ import MustLogin from '../components/Auth/MustLogin';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 
-const LikedRecipesScreen = ({navigation}) => {
+const LikedRecipesScreen = ({ navigation }) => {
   const { apiUrl } = useFetch();
-  
-  const [isLoading, setIsLoading] = useState(false);
-  const [likedRecipes, setLikedRecipes] = useState([]);
-  const [userData, setUserData] = useState(null);
-  const [userLogin, setUserLogin] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [likedRecipes, setLikedRecipes] = useState([]);
+  const [userLogin, setUserLogin] = useState(false);
 
   async function checkExistingUser() {
     const id = await AsyncStorage.getItem('id');
@@ -30,8 +35,6 @@ const LikedRecipesScreen = ({navigation}) => {
         setUserData(parsedData);
         // console.log(userData)
         setUserLogin(true);
-      } else {
-        navigation.navigate('Auth');
       }
     } catch (error) {
       console.log('Error retrieving the data: ', error);
@@ -42,34 +45,36 @@ const LikedRecipesScreen = ({navigation}) => {
     const id = await AsyncStorage.getItem('id');
     const parsedId = JSON.parse(id);
     setIsLoading(true);
-    try {
-      const response = await axios.get(
-        `${apiUrl}api/users/favorite/${parsedId}`
-      );
-      setLikedRecipes(response.data);
-      // console.log(likedRecipes)
-    } catch (error) {
-      console.log('Error : ', error);
-    }finally{
-      setIsLoading(false)
+    if (parsedId !== null) {
+      try {
+        const response = await axios.get(
+          `${apiUrl}api/users/favorite/${parsedId}`
+        );
+        setLikedRecipes(response.data);
+        // console.log(likedRecipes)
+      } catch (error) {
+        console.log('Error : ', error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   }
 
- useFocusEffect(
-   useCallback(() => {
-    checkExistingUser();
-     getFavoriteData();
-   }, [])
- );
+  useFocusEffect(
+    useCallback(() => {
+      checkExistingUser();
+      getFavoriteData();
+    }, [])
+  );
 
   return (
     <View style={styles.containerList}>
-    {!userLogin ? <MustLogin navigation={navigation}/> : <View></View>}
+      {!userLogin ? <MustLogin navigation={navigation} /> : <View></View>}
       <FlatList
         data={likedRecipes}
         numColumns={2}
         // contentContainerStyle={{ columnGap: SIZES.medium }}
-        renderItem={({ item }) => <RecipeCardView item={item}/>}
+        renderItem={({ item }) => <RecipeCardView item={item} />}
       />
     </View>
   );
@@ -82,7 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 10,
     alignItems: 'center',
-    marginTop: 20,
+    paddingTop: 20,
     marginBottom: 20,
   },
 });

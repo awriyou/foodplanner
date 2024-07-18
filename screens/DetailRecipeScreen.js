@@ -34,23 +34,24 @@ const DetailRecipeScreen = ({ navigation }) => {
 
     if (currentUser !== null) {
       setUserLogin(true);
-    }
-    try {
-      const response = await axios.get(
-        `${apiUrl}api/users/favorite/${parsedId}`
-      );
-      // Check if the response contains any favorite recipes
-      if (response.data.length > 0) {
-        const favoriteRecipe = response.data.find(
-          (favorite) => favorite._id === item._id
+      try {
+        const response = await axios.get(
+          `${apiUrl}api/users/favorite/${parsedId}`
         );
-        if (favoriteRecipe) {
-          setIsLiked(true);
+        // Check if the response contains any favorite recipes
+        if (response.data.length > 0) {
+          const favoriteRecipe = response.data.find(
+            (favorite) => favorite._id === item._id
+          );
+          if (favoriteRecipe) {
+            setIsLiked(true);
+          }
         }
+      } catch (error) {
+        console.error('Error fetching favorite recipes:', error);
       }
-    } catch (error) {
-      console.error('Error fetching favorite recipes:', error);
     }
+    
   }
 
   async function fetchFavoriteCount() {

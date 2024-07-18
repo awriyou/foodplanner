@@ -36,11 +36,11 @@ const FoodPlannerScreen = ({ navigation }) => {
   const dataTime = ['Breakfast', 'Lunch', 'Dinner'];
 
   useEffect(() => {
-    checkExistingUser();
     setSelectedDay(new Date().toISOString().split('T')[0]);
   }, []);
   useFocusEffect(
     useCallback(() => {
+      checkExistingUser();
       fetchPlannerData();
       fetchFavoriteRecipes();
     }, [])
@@ -59,8 +59,6 @@ const FoodPlannerScreen = ({ navigation }) => {
 
       if (currentUser !== null) {
         setUserLogin(true);
-      } else {
-        navigation.navigate('Auth');
       }
     } catch (error) {
       console.log('Error retrieving the data: ', error);
@@ -70,26 +68,30 @@ const FoodPlannerScreen = ({ navigation }) => {
   async function fetchFavoriteRecipes() {
     const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
     const parsedId = JSON.parse(userId);
-    try {
-      const response = await axios.get(
-        `${apiUrl}api/users/favorite/${parsedId}`
-      );
-      setFavoriteRecipes(response.data);
-    } catch (error) {
-      console.log('Error fetching favorite recipes: ', error);
+    if (parsedId !== null) {
+      try {
+        const response = await axios.get(
+          `${apiUrl}api/users/favorite/${parsedId}`
+        );
+        setFavoriteRecipes(response.data);
+      } catch (error) {
+        console.log('Error fetching favorite recipes: ', error);
+      }
     }
   }
 
   async function fetchPlannerData() {
     const userId = await AsyncStorage.getItem('id'); // Mendapatkan ID user dari AsyncStorage
     const parsedId = JSON.parse(userId);
-    try {
-      const response = await axios.get(
-        `${apiUrl}api/users/planner/${parsedId}`
-      );
-      setPlannerData(response.data);
-    } catch (error) {
-      console.log('Error fetching planner data: ', error);
+    if (parsedId !== null) {
+      try {
+        const response = await axios.get(
+          `${apiUrl}api/users/planner/${parsedId}`
+        );
+        setPlannerData(response.data);
+      } catch (error) {
+        console.log('Error fetching planner data: ', error);
+      }
     }
   }
 
