@@ -6,8 +6,6 @@ import {
   View,
 } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
-import recipeData from '../store/data';
-import { SIZES } from '../constant/styles';
 import RecipeCardView from '../components/Search/RecipeCardView';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useFetch from '../hook/useFetch';

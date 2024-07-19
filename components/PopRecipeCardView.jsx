@@ -1,10 +1,17 @@
-import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES } from '../constant/styles';
 import { useNavigation } from '@react-navigation/native';
 
-const PopRecipeCardView = ({ item, loader }) => {
+const PopRecipeCardView = ({ item }) => {
   const navigation = useNavigation();
   const [optionVisible, setOptionVisible] = useState(false);
 
@@ -13,47 +20,33 @@ const PopRecipeCardView = ({ item, loader }) => {
       onPress={() => navigation.navigate('DetailRecipe', { item: item.recipe })}
     >
       <View style={styles.container}>
-        {loader ? (
-          <View style={styles.loaderContainer}>
-            <ActivityIndicator size="large" color={COLORS.primary} />
+        <View style={styles.imageContainer}>
+          <Image
+            source={{ uri: item.recipe.recipe_img }}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.desc}>
+          <View style={styles.textContainer}>
+            <Text style={styles.name} numberOfLines={1}>
+              {item.recipe.name}
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text style={styles.difficult}>{item.recipe.level}</Text>
+              <Text style={styles.favoriteCount}>
+                {item.favoriteCount} Liked this recipe
+              </Text>
+            </View>
           </View>
-        ) : (
-          <>
-            <View style={styles.imageContainer}>
-              <Image
-                source={{ uri: item.recipe.recipe_img }}
-                style={styles.image}
-              />
-            </View>
-            <View style={styles.desc}>
-              <View style={styles.textContainer}>
-                <Text style={styles.name} numberOfLines={1}>
-                  {item.recipe.name}
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Text style={styles.difficult}>{item.recipe.level}</Text>
-                  <Text style={styles.favoriteCount}>
-                    {item.favoriteCount} Liked this recipe
-                  </Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                onPress={() => setOptionVisible(!optionVisible)}
-              >
-                <Ionicons
-                  name="ellipsis-vertical"
-                  size={24}
-                  color={COLORS.wht}
-                />
-              </TouchableOpacity>
-            </View>
-          </>
-        )}
+          <TouchableOpacity onPress={() => setOptionVisible(!optionVisible)}>
+            <Ionicons name="ellipsis-vertical" size={24} color={COLORS.wht} />
+          </TouchableOpacity>
+        </View>
       </View>
       {optionVisible && (
         <View style={styles.optionWrapper}>

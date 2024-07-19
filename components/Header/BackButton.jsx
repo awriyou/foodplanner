@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
   wrapper: {
     width: '100%',
     backgroundColor: COLORS.wht,
-    
     zIndex: 999,
   },
   backButton: {
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
-    top: 20,
+    top: 30,
     left: 20,
   },
 });

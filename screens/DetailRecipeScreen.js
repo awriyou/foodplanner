@@ -17,8 +17,9 @@ import { useRoute } from '@react-navigation/native';
 import useFetch from '../hook/useFetch';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { StatusBar } from 'expo-status-bar';
 
-const DetailRecipeScreen = ({ navigation }) => {
+const DetailRecipeScreen = () => {
   const { apiUrl } = useFetch();
 
   const [loader, setLoader] = useState(false);
@@ -119,7 +120,8 @@ const DetailRecipeScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <>
+      <StatusBar translucent/>
       <BackButton />
       <View style={styles.container}>
         <Image source={{ uri: item.recipe_img }} style={styles.image} />
@@ -261,7 +263,7 @@ const DetailRecipeScreen = ({ navigation }) => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 

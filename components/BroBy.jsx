@@ -32,7 +32,11 @@ const BroBy = () => {
       <Text style={styles.broByText}>Browse by category</Text>
       {isLoading ? ( // Display loading indicator while fetching data
         <View>
-          <ActivityIndicator size={SIZES.xxLarge} color={COLORS.primary} />
+          <ActivityIndicator
+            size={SIZES.xxLarge}
+            color={COLORS.primary}
+            style={{ marginVertical: 20 }}
+          />
         </View>
       ) : (
         <View
@@ -45,7 +49,7 @@ const BroBy = () => {
             scrollEnabled
             data={category}
             renderItem={({ item }) => <CategoryCardView category={item} />}
-            style={{ paddingHorizontal: 10, }}
+            style={{ paddingHorizontal: 10 }}
           />
         </View>
       )}

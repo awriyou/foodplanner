@@ -50,17 +50,19 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     gap: 10,
   },
   qtyText: {
     fontFamily: 'semiBold',
     fontSize: 16,
-    backgroundColor: COLORS.wht,
+    color: COLORS.primary,
   },
   nameText: {
     fontFamily: 'semiBold',
     fontSize: 16,
+    color: 'blue',
   },
   iconWrapper: {
     flexDirection: 'row',

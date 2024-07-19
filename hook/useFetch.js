@@ -1,13 +1,8 @@
-import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const useFetch = () => {
-  // const apiUrl = `http://192.168.1.8:3000/`;
-  const apiUrl = `http://192.168.18.5:3000/`;
-  // const apiUrl = `http://10.255.195.251:3000/`;
-  // const apiUrl = `http://192.168.51.1:3000/`;
-  // const apiUrl = `http://192.168.108.1:3000/`;
+  const apiUrl = `https://foodplanner-server.vercel.app/`;
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);

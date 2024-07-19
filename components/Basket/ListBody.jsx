@@ -181,8 +181,12 @@ const ListBody = () => {
                 renderItem={({ item }) => (
                   <View style={styles.wrapperList}>
                     <View style={styles.textWrapper}>
-                      <Text style={styles.qtyText}>{item.qty}</Text>
-                      <Text style={styles.nameText}>{item.name}</Text>
+                      <Text numberOfLines={1} style={styles.qtyText}>
+                        {item.qty}
+                      </Text>
+                      <Text numberOfLines={1} style={styles.nameText}>
+                        {item.name}
+                      </Text>
                     </View>
                     <View style={styles.iconWrapper}>
                       <TouchableOpacity
