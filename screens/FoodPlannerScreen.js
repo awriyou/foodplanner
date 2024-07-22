@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Image,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -126,7 +127,12 @@ const FoodPlannerScreen = ({ navigation }) => {
       setTime('');
       setListFocus(null);
     } catch (error) {
-      console.log('Error adding recipe to planner: ', error);
+      Alert.alert('Failed to save the recipe', 'Please Provide valid recipe', [
+        {
+          text: 'Try again',
+          onPress: () => {},
+        },
+      ]);
     }
   };
 
@@ -302,7 +308,7 @@ const FoodPlannerScreen = ({ navigation }) => {
           </View>
         </>
       ) : (
-        <ActivityIndicator />
+        <ActivityIndicator size={SIZES.xxLarge} color={COLORS.primary} style={{marginTop: 50}}/>
       )}
     </SafeAreaView>
   );
