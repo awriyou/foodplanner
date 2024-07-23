@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Smart Foodplanner",
-    "slug": "fe",
+    "slug": "IO",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/iconn.png",
@@ -12,16 +12,24 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/iconn.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.awriyou.foodplanner"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3a464e8b-cc99-42e9-ac7f-9d92c6488b4b"
+      }
     }
   }
 }
