@@ -29,7 +29,7 @@ const DetailRecipeScreen = () => {
   const [favoriteCount, setFavoriteCount] = useState(0); // Tambahkan state ini
   const route = useRoute();
   const item = route.params.recipe || route.params.item;
-
+  // console.log(item)
   async function favoriteOrNot() {
     setLoader(true);
     const id = await AsyncStorage.getItem('id');
@@ -46,7 +46,7 @@ const DetailRecipeScreen = () => {
         // Check if the response contains any favorite recipes
         if (response.data.length > 0) {
           const favoriteRecipe = response.data.find(
-            (favorite) => favorite._id === item._id
+            (favorite) => favorite._id === item._id || item.id // OR mengkondisikan jika yang dikirim itu dari planner atau dari daftar recipe 
           );
           if (favoriteRecipe) {
             setIsLiked(true);
@@ -63,7 +63,7 @@ const DetailRecipeScreen = () => {
   async function fetchFavoriteCount() {
     try {
       const response = await axios.get(
-        `${apiUrl}api/recipes/favoriteCount/${item._id}`
+        `${apiUrl}api/recipes/favoriteCount/${item._id || item.id}`
       );
       setFavoriteCount(response.data.count);
     } catch (error) {

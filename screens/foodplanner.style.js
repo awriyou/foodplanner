@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   imageBg: {
     position: 'absolute',
-    top: SIZES.height / 2 - 200,
+    top: SIZES.height / 2 - 260,
     left: SIZES.width / 2 - 100,
     zIndex: -1,
     width: 200,
