@@ -6,15 +6,12 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
 import RecipeCardView from './RecipeCardView';
 import { COLORS, SIZES } from '../../constant/styles';
-import styles from './reciperow.style';
 import useFetch from '../../hook/useFetch';
 
 const RecipeRow = ({ data }) => {
   const { isLoading, error } = useFetch();
-  const [isSearch, setIsSearch] = useState(true);
   return (
     <View
       style={{
@@ -34,7 +31,7 @@ const RecipeRow = ({ data }) => {
           numColumns={2}
           // contentContainerStyle={{ columnGap: SIZES.medium }}
           renderItem={({ item }) => (
-            <RecipeCardView item={item} search={isSearch} />
+            <RecipeCardView item={item}  />
           )}
           initialNumToRender={6}
           maxToRenderPerBatch={10}

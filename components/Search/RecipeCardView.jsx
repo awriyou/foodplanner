@@ -1,12 +1,9 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES } from '../../constant/styles';
 import { useNavigation } from '@react-navigation/native';
 
-const RecipeCardView = ({ item, search }) => {
+const RecipeCardView = ({ item }) => {
   const navigation = useNavigation();
-  const [optionVisible, setOptionVisible] = useState(false);
   return (
     <TouchableOpacity
       style={styles.containerWrapper}
@@ -23,32 +20,7 @@ const RecipeCardView = ({ item, search }) => {
             </Text>
             <Text style={styles.difficult}>{item.level}</Text>
           </View>
-          {search ? (
-            <TouchableOpacity onPress={() => setOptionVisible(!optionVisible)}>
-              <Ionicons name="ellipsis-vertical" size={24} color={COLORS.wht} />
-            </TouchableOpacity>
-          ) : (
-            <></>
-          )}
         </View>
-        {optionVisible ? (
-          <View style={styles.optionWrapper}>
-            <View>
-              <TouchableOpacity style={styles.option1}>
-                <Ionicons name="add-sharp" size={24} color={COLORS.dark} />
-                <Text>Add To Calendar</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity style={styles.option2}>
-                <Ionicons name="heart-outline" size={24} color={COLORS.dark} />
-                <Text>Add To Favorite</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ) : (
-          <View></View>
-        )}
       </View>
     </TouchableOpacity>
   );
@@ -58,12 +30,10 @@ export default RecipeCardView;
 
 const styles = StyleSheet.create({
   containerWrapper: {
-    // flex: 1,
     width: SIZES.width / 2 - 10,
     gap: 8,
     paddingHorizontal: 2,
     alignItems: 'center',
-    // overflow: 'hidden'
   },
   container: {
     flex: 1,
