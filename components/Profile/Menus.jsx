@@ -71,22 +71,7 @@ const Menus = ({
           </View>
         </TouchableOpacity>
       </View>
-      <View style={styles.container}>
-        <View style={styles.buttonWrapper}>
-          <Ionicons name="contrast" size={30} color={COLORS.primary} />
-          <View style={styles.descIcon}>
-            <Text style={styles.buttonText}>Dark Mode</Text>
-            <TouchableOpacity
-              style={styles.toggleWrapper}
-              onPress={() => setToggle(!toggle)}
-            >
-              <View
-                style={[styles.toggle, toggle ? { right: 2 } : { left: 2 }]}
-              ></View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+      
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.buttonWrapper}

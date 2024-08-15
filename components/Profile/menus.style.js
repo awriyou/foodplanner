@@ -3,9 +3,6 @@ import { SIZES, COLORS, SHADOWS } from '../../constant/styles';
 
 const styles = StyleSheet.create({
   container: {
-    // width: 300,
-    // alignItems: 'center',
-    // flex: 1,
     justifyContent: 'center',
     paddingVertical: 20,
     paddingHorizontal: 10,
