@@ -1,5 +1,4 @@
-// import { StatusBar } from 'expo-status-bar';
-// import { StyleSheet, Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -16,10 +15,12 @@ import DetailRecipeScreen from './screens/DetailRecipeScreen';
 import ChangePasswordScreen from './screens/ChangePasswordScreen';
 import LikedRecipesScreen from './screens/LikedRecipesScreen';
 import SettingScreen from './screens/SettingScreen';
-import { TouchableOpacity } from 'react-native';
 import BackButtonNav from './components/Header/BackButtonNav';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AuthScreen from './screens/AuthScreen';
+
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
 
 const screenOptions = {
   tabBarShowLabel: false,
@@ -159,6 +160,8 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+
+
 
   return (
     <SafeAreaProvider>

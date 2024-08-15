@@ -56,7 +56,6 @@ const HomeScreen = ({ navigation }) => {
               style={styles.imageProf}
               source={require('../assets/image/profile kecil.png')}
             />
-
             <Text numberOfLines={1} style={styles.name}>
               Halo, {getFirstWordWithLimit(userData ? userData.username : '--')}
             </Text>

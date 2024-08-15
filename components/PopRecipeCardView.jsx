@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const PopRecipeCardView = ({ item }) => {
   const navigation = useNavigation();
-  const [optionVisible, setOptionVisible] = useState(false);
+  // const [optionVisible, setOptionVisible] = useState(false);
 
   return (
     <TouchableOpacity
@@ -35,6 +35,7 @@ const PopRecipeCardView = ({ item }) => {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                marginTop: 5,
               }}
             >
               <Text style={styles.difficult}>{item.recipe.level}</Text>
@@ -43,23 +44,8 @@ const PopRecipeCardView = ({ item }) => {
               </Text>
             </View>
           </View>
-          <TouchableOpacity onPress={() => setOptionVisible(!optionVisible)}>
-            <Ionicons name="ellipsis-vertical" size={24} color={COLORS.wht} />
-          </TouchableOpacity>
         </View>
       </View>
-      {optionVisible && (
-        <View style={styles.optionWrapper}>
-          <TouchableOpacity style={styles.option}>
-            <Ionicons name="add-sharp" size={24} color={COLORS.dark} />
-            <Text>Add To Calendar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.option}>
-            <Ionicons name="heart-outline" size={24} color={COLORS.dark} />
-            <Text>Add To Favorite</Text>
-          </TouchableOpacity>
-        </View>
-      )}
     </TouchableOpacity>
   );
 };
@@ -89,6 +75,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
+    height: '40%'
   },
   textContainer: {
     flex: 1,
@@ -103,9 +90,9 @@ const styles = StyleSheet.create({
     color: COLORS.wht,
   },
   favoriteCount: {
-    fontFamily: 'bold',
-    fontSize: SIZES.small,
-    color: COLORS.wht,
+    fontFamily: 'regular',
+    fontSize: SIZES.xSmall,
+    color: 'white',
   },
   optionWrapper: {
     position: 'absolute',
