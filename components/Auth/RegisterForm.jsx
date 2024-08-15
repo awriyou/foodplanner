@@ -97,7 +97,7 @@ const RegisterForm = ({ navigation }) => {
         <View>
           <View style={styles.inputWrapper}>
             <TextInput
-              placeholder="Username"
+              placeholder="Full Name"
               style={styles.input}
               onFocus={() => {
                 setFieldTouched('username');
