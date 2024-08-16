@@ -102,6 +102,7 @@ const HomeScreen = ({ navigation }) => {
               //   }}
               onPress={() => navigation.navigate('SearchRecipe')}
               placeholder="Search Recipe Here!"
+              allowFontScaling={false}
             />
           </View>
         </View>

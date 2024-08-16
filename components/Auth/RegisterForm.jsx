@@ -98,6 +98,7 @@ const RegisterForm = ({ navigation }) => {
           <View style={styles.inputWrapper}>
             <TextInput
               placeholder="Full Name"
+              allowFontScaling={false}
               style={styles.input}
               onFocus={() => {
                 setFieldTouched('username');
@@ -118,6 +119,7 @@ const RegisterForm = ({ navigation }) => {
           <View style={styles.inputWrapper}>
             <TextInput
               placeholder="Email"
+              allowFontScaling={false}
               style={styles.input}
               onFocus={() => {
                 setFieldTouched('email');
@@ -138,6 +140,7 @@ const RegisterForm = ({ navigation }) => {
           <View style={styles.inputWrapper}>
             <TextInput
               placeholder="Password"
+              allowFontScaling={false}
               style={[styles.input, { paddingRight: 45 }]}
               secureTextEntry={obsecureText}
               onFocus={() => {

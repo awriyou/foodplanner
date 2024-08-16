@@ -94,23 +94,6 @@ const styles = StyleSheet.create({
     fontSize: SIZES.xSmall,
     color: 'white',
   },
-  optionWrapper: {
-    position: 'absolute',
-    bottom: -10,
-    right: 40,
-    width: 160,
-    marginBottom: 30,
-    backgroundColor: COLORS.wht,
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    elevation: 10,
-  },
-  option: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    marginVertical: 10,
-  },
 });
 
 export default PopRecipeCardView;

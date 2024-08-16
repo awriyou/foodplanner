@@ -74,6 +74,7 @@ const ChangePasswordScreen = ({ navigation }) => {
                   : null,
               ]}
               placeholder="Current Password"
+              allowFontScaling={false}
               onChangeText={handleChange('oldPassword')}
               onBlur={handleBlur('oldPassword')}
               value={values.oldPassword}
@@ -95,6 +96,7 @@ const ChangePasswordScreen = ({ navigation }) => {
                   : null,
               ]}
               placeholder="New Password"
+              allowFontScaling={false}
               onChangeText={handleChange('newPassword')}
               onBlur={handleBlur('newPassword')}
               value={values.newPassword}
@@ -112,6 +114,7 @@ const ChangePasswordScreen = ({ navigation }) => {
                   : null,
               ]}
               placeholder="Confirm New Password"
+              allowFontScaling={false}
               onChangeText={handleChange('confirmNewPassword')}
               onBlur={handleBlur('confirmNewPassword')}
               value={values.confirmNewPassword}

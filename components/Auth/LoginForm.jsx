@@ -91,6 +91,7 @@ const LoginForm = ({ navigation }) => {
           <View style={styles.inputWrapper}>
             <TextInput
               placeholder="Email"
+              allowFontScaling={false}
               style={styles.input}
               onFocus={() => {
                 setFieldTouched('email');
@@ -111,6 +112,7 @@ const LoginForm = ({ navigation }) => {
           <View style={styles.inputWrapper}>
             <TextInput
               placeholder="Password"
+              allowFontScaling={false}
               style={[styles.input, { paddingRight: 45 }]}
               secureTextEntry={obsecureText}
               onFocus={() => {

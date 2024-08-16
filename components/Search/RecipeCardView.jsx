@@ -31,15 +31,15 @@ export default RecipeCardView;
 const styles = StyleSheet.create({
   containerWrapper: {
     width: SIZES.width / 2 - 10,
+    height: SIZES.height / 5,
     gap: 8,
     paddingHorizontal: 2,
     alignItems: 'center',
+    marginBottom: 5,
   },
   container: {
     flex: 1,
     width: '100%',
-    height: SIZES.height / 5,
-    marginBottom: 10,
   },
   imageContainer: {
     flex: 1,
@@ -47,8 +47,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 165,
-    resizeMode: 'cover',
-    overflow:'hidden',
+    overflow: 'hidden',
     borderRadius: 20,
   },
   desc: {
@@ -56,12 +55,9 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     backgroundColor: COLORS.dark,
     opacity: 0.6,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 10,
   },
-  textContainer: {},
   name: {
     fontFamily: 'bold',
     width: 130,
@@ -72,29 +68,5 @@ const styles = StyleSheet.create({
     fontFamily: 'regular',
     fontSize: SIZES.small,
     color: COLORS.wht,
-  },
-  optionWrapper: {
-    position: 'absolute',
-    bottom: 30,
-    right: 10,
-    width: 160,
-    marginBottom: 30,
-    backgroundColor: COLORS.wht,
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    elevation: 10,
-    opacity: 0.8,
-  },
-  option1: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginVertical: 10,
-  },
-  option2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginVertical: 10,
   },
 });

@@ -32,6 +32,7 @@ const SearchBox = ({
           }}
           // onPress={() => navigation.navigate('SearchRecipe')}
           placeholder="Search Here!"
+          allowFontScaling={false}
         />
       </View>
       <View
