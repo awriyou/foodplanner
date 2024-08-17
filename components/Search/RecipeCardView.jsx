@@ -31,7 +31,7 @@ export default RecipeCardView;
 const styles = StyleSheet.create({
   containerWrapper: {
     width: SIZES.width / 2 - 10,
-    height: SIZES.height / 5,
+    height: 165,
     gap: 8,
     paddingHorizontal: 2,
     alignItems: 'center',
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 165,
     overflow: 'hidden',
+    
     borderRadius: 20,
   },
   desc: {

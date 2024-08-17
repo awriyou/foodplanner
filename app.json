@@ -7,7 +7,7 @@
     "icon": "./assets/iconApp.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/sp.jpg",
+      "image": "./assets/sp.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,7 +18,7 @@
     "android": {
       "versionCode": 5,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/iconn.png",
+        "foregroundImage": "./assets/iconApp.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.awriyou.foodplanner"
