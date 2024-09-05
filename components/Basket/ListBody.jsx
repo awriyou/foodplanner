@@ -115,11 +115,13 @@ const ListBody = () => {
                 <TextInput
                   style={[styles.inputName]}
                   placeholder="Item name"
+                  allowFontScaling={false}
                   onChangeText={(text) => setItemName(text)}
                 />
                 <TextInput
                   style={styles.inputQty}
                   placeholder="Quantity"
+                  allowFontScaling={false}
                   onChangeText={(text) => setItemQty(text)}
                 />
               </View>

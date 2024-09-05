@@ -165,11 +165,6 @@ const LoginForm = ({ navigation }) => {
                 <Text style={styles.enterBtnText}>S I G N I N</Text>
               </View>
             )}
-            <Text style={styles.or}>OR</Text>
-            <TouchableOpacity style={styles.googleBtn}>
-              <Text style={styles.enterBtnText}>Continue with google</Text>
-              <Ionicons name="logo-google" size={24} color={COLORS.secondary} />
-            </TouchableOpacity>
           </View>
         </View>
       )}
