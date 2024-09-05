@@ -1,35 +1,35 @@
 {
-  "expo": {
-    "name": "Smart Foodplanner",
-    "slug": "IO",
-    "version": "1.0.4",
-    "orientation": "portrait",
-    "icon": "./assets/iconApp.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/sp.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "buildNumber": "1.0.0",
-      "supportsTablet": true
-    },
-    "android": {
-      "versionCode": 6,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/iconApp.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.awriyou.foodplanner"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "3a464e8b-cc99-42e9-ac7f-9d92c6488b4b"
-      }
+    "expo": {
+        "name": "Smart Foodplanner",
+        "slug": "IO",
+        "version": "1.0.4",
+        "orientation": "portrait",
+        "icon": "./assets/iconApp.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/sp.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "ios": {
+            "buildNumber": "1.0.0",
+            "supportsTablet": true
+        },
+        "android": {
+            "versionCode": 7,
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/iconApp.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.awriyou.foodplanner"
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "extra": {
+            "eas": {
+                "projectId": "3a464e8b-cc99-42e9-ac7f-9d92c6488b4b"
+            }
+        }
     }
-  }
 }
