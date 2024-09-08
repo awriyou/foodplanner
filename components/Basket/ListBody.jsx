@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
@@ -98,128 +99,159 @@ const ListBody = () => {
       saveShopList(newShopList);
     }
   };
+  const closeModal = () => {
+      setModalVisible(false);
+  };
   return (
-    <>
-      <View style={styles.container}>
-        <Modal
-          visible={modalVisible}
-          animationType="slide"
-          transparent={true}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.ModalCenteredView}>
-            <View style={styles.modalView}>
-              <View style={styles.inputWrapper}>
-                <TextInput
-                  style={[styles.inputName]}
-                  placeholder="Item name"
-                  allowFontScaling={false}
-                  onChangeText={(text) => setItemName(text)}
-                />
-                <TextInput
-                  style={styles.inputQty}
-                  placeholder="Quantity"
-                  allowFontScaling={false}
-                  onChangeText={(text) => setItemQty(text)}
-                />
-              </View>
-              <TouchableOpacity
-                style={styles.saveListBtn}
-                onPress={() => {
-                  addItem(itemName, itemQty);
-                  setItemName('');
-                  setItemQty('');
-                }}
+      <>
+          <View style={styles.container}>
+              <Modal
+                  visible={modalVisible}
+                  animationType="slide"
+                  transparent={true}
+                  onRequestClose={() => {
+                      setModalVisible(!modalVisible);
+                  }}
               >
-                <Ionicons name="add" size={24} color={COLORS.wht} />
-                <Text style={styles.saveListBtnText}> Save </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
+                  <TouchableWithoutFeedback onPress={closeModal}>
+                      <View style={styles.ModalCenteredView}>
+                          <View style={styles.modalView}>
+                              <View style={styles.inputWrapper}>
+                                  <TextInput
+                                      style={[styles.inputName]}
+                                      placeholder="Item name"
+                                      allowFontScaling={false}
+                                      onChangeText={(text) => setItemName(text)}
+                                  />
+                                  <TextInput
+                                      style={styles.inputQty}
+                                      placeholder="QTY"
+                                      allowFontScaling={false}
+                                      onChangeText={(text) => setItemQty(text)}
+                                  />
+                              </View>
+                              <TouchableOpacity
+                                  style={styles.saveListBtn}
+                                  onPress={() => {
+                                      addItem(itemName, itemQty);
+                                      setItemName('');
+                                      setItemQty('');
+                                  }}
+                              >
+                                  <Ionicons
+                                      name="add"
+                                      size={24}
+                                      color={COLORS.wht}
+                                  />
+                                  <Text style={styles.saveListBtnText}>
+                                      {' '}
+                                      Save{' '}
+                                  </Text>
+                              </TouchableOpacity>
+                          </View>
+                      </View>
+                  </TouchableWithoutFeedback>
+              </Modal>
 
-        <Text style={styles.title}>Shopping List</Text>
+              <Text style={styles.title}>Shopping List</Text>
 
-        <View style={styles.wrapperContainer}>
-          <Text style={styles.headText}>UNCHECKED</Text>
-          <View style={styles.uncheckedList}>
-            {shopList.length > 0 ? (
-              <FlatList
-                data={shopList}
-                renderItem={({ item }) => (
-                  <View style={styles.wrapperList}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.qtyText}>{item.qty}</Text>
-                      <Text style={styles.nameText}>{item.name}</Text>
-                    </View>
-                    <TouchableOpacity
-                      style={styles.iconWrapper}
-                      onPress={() => toggleCheck(item)}
-                    >
-                      <Ionicons
-                        name="checkmark-circle-outline"
-                        size={24}
-                        color={COLORS.gray}
-                      />
-                    </TouchableOpacity>
+              <View style={styles.wrapperContainer}>
+                  <Text style={styles.headText}>UNCHECKED</Text>
+                  <View style={styles.uncheckedList}>
+                      {shopList.length > 0 ? (
+                          <FlatList
+                              data={shopList}
+                              renderItem={({ item }) => (
+                                  <View style={styles.wrapperList}>
+                                      <View style={styles.textWrapper}>
+                                          <Text style={styles.qtyText}>
+                                              {item.qty}
+                                          </Text>
+                                          <Text style={styles.nameText}>
+                                              {item.name}
+                                          </Text>
+                                      </View>
+                                      <TouchableOpacity
+                                          style={styles.iconWrapper}
+                                          onPress={() => toggleCheck(item)}
+                                      >
+                                          <Ionicons
+                                              name="checkmark-circle-outline"
+                                              size={24}
+                                              color={COLORS.gray}
+                                          />
+                                      </TouchableOpacity>
+                                  </View>
+                              )}
+                              keyExtractor={(item) => item.name}
+                          />
+                      ) : (
+                          <Text style={styles.emptyText}>
+                              Your Shopping List Is Empty
+                          </Text>
+                      )}
                   </View>
-                )}
-                keyExtractor={(item) => item.name}
-              />
-            ) : (
-              <Text style={styles.emptyText}>Your Shopping List Is Empty</Text>
-            )}
-          </View>
-        </View>
+              </View>
 
-        <View style={styles.wrapperContainer}>
-          <Text style={styles.headText}>CHECKED</Text>
-          <View style={styles.uncheckedList}>
-            {checkedShopList.length > 0 ? (
-              <FlatList
-                data={checkedShopList}
-                renderItem={({ item }) => (
-                  <View style={styles.wrapperList}>
-                    <View style={styles.textWrapper}>
-                      <Text numberOfLines={1} style={styles.qtyText}>
-                        {item.qty}
-                      </Text>
-                      <Text numberOfLines={1} style={styles.nameText}>
-                        {item.name}
-                      </Text>
-                    </View>
-                    <View style={styles.iconWrapper}>
-                      <TouchableOpacity
-                        onPress={() => removeItem(item, 'checkedShopList')}
-                      >
-                        <Ionicons
-                          name="trash"
-                          size={24}
-                          color={COLORS.secondary}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={() => toggleCheck(item)}>
-                        <Ionicons
-                          name="checkmark-circle"
-                          size={24}
-                          color={COLORS.secondary}
-                        />
-                      </TouchableOpacity>
-                    </View>
+              <View style={styles.wrapperContainer}>
+                  <Text style={styles.headText}>CHECKED</Text>
+                  <View style={styles.uncheckedList}>
+                      {checkedShopList.length > 0 ? (
+                          <FlatList
+                              data={checkedShopList}
+                              renderItem={({ item }) => (
+                                  <View style={styles.wrapperList}>
+                                      <View style={styles.textWrapper}>
+                                          <Text
+                                              numberOfLines={1}
+                                              style={styles.qtyText}
+                                          >
+                                              {item.qty}
+                                          </Text>
+                                          <Text
+                                              numberOfLines={1}
+                                              style={styles.nameText}
+                                          >
+                                              {item.name}
+                                          </Text>
+                                      </View>
+                                      <View style={styles.iconWrapper}>
+                                          <TouchableOpacity
+                                              onPress={() =>
+                                                  removeItem(
+                                                      item,
+                                                      'checkedShopList'
+                                                  )
+                                              }
+                                          >
+                                              <Ionicons
+                                                  name="trash"
+                                                  size={24}
+                                                  color={COLORS.secondary}
+                                              />
+                                          </TouchableOpacity>
+                                          <TouchableOpacity
+                                              onPress={() => toggleCheck(item)}
+                                          >
+                                              <Ionicons
+                                                  name="checkmark-circle"
+                                                  size={24}
+                                                  color={COLORS.secondary}
+                                              />
+                                          </TouchableOpacity>
+                                      </View>
+                                  </View>
+                              )}
+                              keyExtractor={(item) => item.name}
+                          />
+                      ) : (
+                          <Text style={styles.emptyText}>No items checked</Text>
+                      )}
                   </View>
-                )}
-                keyExtractor={(item) => item.name}
-              />
-            ) : (
-              <Text style={styles.emptyText}>No items checked</Text>
-            )}
+              </View>
           </View>
-        </View>
-      </View>
-      <AddButton setModalVisible={setModalVisible} />
-    </>
+          <AddButton setModalVisible={setModalVisible} />
+      </>
   );
 };
 
